@@ -129,7 +129,7 @@ page {
   height: 140rpx;
   border-radius: 50%;
   background: linear-gradient(#007aff, #0063ce);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
   display: flex;
   align-content: center;
   justify-content: center;
@@ -151,3 +151,4 @@ page {
   line-height: 36rpx;
   word-break: break-all;
 }
+

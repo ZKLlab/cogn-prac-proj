@@ -12,7 +12,9 @@
     "pages/openapi/callback/callback",
     "pages/openapi/cloudid/cloudid",
     "pages/im/im",
-    "pages/im/room/room"
+    "pages/im/room/room",
+    "pages/ranklist/ranklist",
+    "pages/game/maingame"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
