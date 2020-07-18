@@ -1,0 +1,29 @@
+<!-- 画板部分 -->
+<canvas type="2d" class="graffiti-canvas" id="graffitiCanvas" bindtouchstart="handleTouchStart" bindtouchmove="handleTouchMove" bindtouchend="handleTouchEnd" disable-scroll />
+<!-- 控件部分 -->
+<!-- view class="graffiti-controls">
+	<van-button class="graffiti-controls__icon-button" bindtap="showForeColorPicker">
+		<mdIcon type="mdiFormatColorHighlight" size="50rpx" color="#323232" />
+		<view class="graffiti-controls__icon-button__color"></view>
+	</van-button>
+	<van-button class="graffiti-controls__icon-button">
+		<mdIcon type="mdiFormatColorFill" size="50rpx" color="#323232" />
+		<view class="graffiti-controls__icon-button__color"></view>
+	</van-button>
+</view> -->
+<!-- 前景色取色器 -->
+<!-- <van-popup show="{{showForeColorPicker}}" bind:close="handleForeColorPickerClosed">
+	<text>前景色</text>
+	<van-row gutter="10">
+		<van-col span="6">
+			<van-button class="graffiti-controls__icon-button" color="#7232dd" />
+		</van-col>
+		<van-col span="6">span: 8</van-col>
+		<van-col span="6">span: 8</van-col>
+		<van-col span="6">span: 8</van-col>
+		<van-col span="6">span: 8</van-col>
+		<van-col span="6">span: 8</van-col>
+		<van-col span="6">span: 8</van-col>
+		<van-col span="6">span: 8</van-col>
+	</van-row>
+</van-popup> -->

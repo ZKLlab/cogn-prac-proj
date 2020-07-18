@@ -1,0 +1,9 @@
+mdIcon {
+  display: inline-block;
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  background-size: cover;
+}
