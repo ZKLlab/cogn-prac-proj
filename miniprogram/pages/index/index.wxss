@@ -1,34 +1,66 @@
 /**index.wxss**/
 
 page {
-  background: #f6f6f6;
+  background: white;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
 }
 
-.userinfo, .uploader, .tunnel {
-  margin-top: 40rpx;
-  height: 140rpx;
-  width: 100%;
-  background: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+.container{
+  height:500px;
+}
+
+.userinfo{
+  height:150rpx;
+  width: 80%;
+  background:white;
+  border: 1px solid rgb(209, 203, 203);
+  border-radius: 50rpx;
+  display:flex;
+  flex-direction:row;
+  justify-content:flex-start;
+}
+.uploader,.tunnel {
+  
+  height: 200rpx;
+  width: 50%;
+  background: white;
+  border: 1px solid white;
   border-left: none;
   border-right: none;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  flex-wrap:wrap;
   align-items: center;
+  align-content:center;
+  transition: all 300ms ease;
+}
+.uploader-1, .uploader-2{
+  margin : 10px;
+  height: 250rpx;
+  width: 80%;
+  background:white;
+  border: 1px solid white;
+  display: flex;
+  flex-direction: row;
+  flex-wrap:nowrap;
+  justify-content:space-between;
+  align-items: center;
+  align-content:center;
   transition: all 300ms ease;
 }
 
+
 .userinfo {
   padding-left: 120rpx;
+  margin-bottom:60px;
 }
 
 .userinfo-avatar {
-  width: 100rpx;
-  height: 100rpx;
-  margin: 20rpx;
+  width: 110rpx;
+  height: 110rpx;
+  margin: 10rpx;
   border-radius: 50%;
   background-size: cover;
   background-color: white;
@@ -75,6 +107,69 @@ page {
   font-size: 34rpx;
   color: #007aff;
 }
+
+.uploader-bt1 {
+  width: 115px; 
+  line-height: 100px;
+  font-size: 34rpx;
+  color: #007aff;
+  text-align:center;
+  
+  background: linear-gradient(to bottom left,#7744FF,#CCBBFF);
+  border-radius: 50rpx;
+}
+
+
+.uploader-bt2 {
+  width: 115px; 
+  margin-right:20px;
+  line-height: 100px;
+  font-size: 34rpx;
+  color: #007aff;
+  text-align:center;
+  background: linear-gradient(to bottom left,#EF33B1,#F6E6BC);
+  border-radius: 50rpx;
+}
+
+
+.uploader-bt3 {
+  width: 115px; 
+  margin-right:20px;
+  line-height: 100px;
+  font-size: 34rpx;
+  color: #007aff;
+  text-align:center;
+  background: linear-gradient(to bottom left,#52c852,#81f381);
+  border-radius: 50rpx;
+}
+
+
+.uploader-bt4 {
+  width: 115px; 
+  line-height: 120px;
+  font-size: 34rpx;
+  color: #007aff;
+  text-align:center;
+  background: linear-gradient(to bottom left,#FF7744,#FFA488);
+  border-radius: 50rpx;
+}
+
+.icon{
+  line-height: 60px;
+  color: white;
+  font-size :70px;
+  align-content: center;
+  justify-content: center;
+}
+
+.text{
+  line-height: 40px;
+  color:white;
+  font-size:20px;
+  align-content: center;
+  justify-content: center;
+}
+
 
 .uploader-container {
   width: 100%;
@@ -129,7 +224,7 @@ page {
   height: 140rpx;
   border-radius: 50%;
   background: linear-gradient(#007aff, #0063ce);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
   display: flex;
   align-content: center;
   justify-content: center;
@@ -151,3 +246,4 @@ page {
   line-height: 36rpx;
   word-break: break-all;
 }
+
