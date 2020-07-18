@@ -1,4 +1,4 @@
-// pages/ranklist/ranklist.js
+// miniprogram/pages/rankList/rankList.js
 Page({
 
   /**

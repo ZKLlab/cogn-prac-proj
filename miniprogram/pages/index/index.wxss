@@ -1,5 +1,3 @@
-/**index.wxss**/
-
 page {
   background: white;
   display: flex;
@@ -7,54 +5,25 @@ page {
   justify-content: flex-start;
 }
 
-.container{
-  height:500px;
-}
-
-.userinfo{
-  height:150rpx;
-  width: 80%;
-  background:white;
-  border: 1px solid rgb(209, 203, 203);
-  border-radius: 50rpx;
-  display:flex;
-  flex-direction:row;
-  justify-content:flex-start;
-}
-.uploader,.tunnel {
-  
-  height: 200rpx;
-  width: 50%;
-  background: white;
-  border: 1px solid white;
-  border-left: none;
-  border-right: none;
+.container {
   display: flex;
   flex-direction: column;
-  flex-wrap:wrap;
-  align-items: center;
-  align-content:center;
-  transition: all 300ms ease;
-}
-.uploader-1, .uploader-2{
-  margin : 10px;
-  height: 250rpx;
-  width: 80%;
-  background:white;
-  border: 1px solid white;
-  display: flex;
-  flex-direction: row;
-  flex-wrap:nowrap;
-  justify-content:space-between;
-  align-items: center;
-  align-content:center;
-  transition: all 300ms ease;
+  justify-content: center;
 }
 
+/* 用户信息部分 */
 
 .userinfo {
-  padding-left: 120rpx;
-  margin-bottom:60px;
+  box-sizing: border-box;
+  width: 610rpx;
+  height: 150rpx;
+  padding-left: 60rpx;
+  margin: 60rpx 0 120rpx;
+  border: 1px solid rgb(209, 203, 203);
+  border-radius: 50rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
 }
 
 .userinfo-avatar {
@@ -63,29 +32,21 @@ page {
   margin: 10rpx;
   border-radius: 50%;
   background-size: cover;
-  background-color: white;
 }
-
-.userinfo-avatar[size] {
-  width: 100rpx;
-}
-
 
 .userinfo-avatar:after {
   border: none;
 }
 
 .userinfo-nickname {
-  font-size: 32rpx;
-  color: #007aff;
-  background-color: white;
-  background-size: cover;
+  font-size: 40rpx;
+  letter-spacing: 1px;
   text-align: left;
   padding-left: 0;
   margin-left: 10px;
 }
 
-.userinfo-nickname::after {
+.userinfo-nickname:after {
   border: none;
 }
 
@@ -93,157 +54,54 @@ page {
   flex: 1;
 }
 
-.uploader, .tunnel {
-  height: auto;
-  padding: 0 0 0 40rpx;
-  flex-direction: column;
-  align-items: flex-start;
-  box-sizing: border-box;
-}
+/* 菜单部分 */
 
-.uploader-text, .tunnel-text {
-  width: 100%;
-  line-height: 52px;
-  font-size: 34rpx;
-  color: #007aff;
-}
-
-.uploader-bt1 {
-  width: 115px; 
-  line-height: 100px;
-  font-size: 34rpx;
-  color: #007aff;
-  text-align:center;
-  
-  background: linear-gradient(to bottom left,#7744FF,#CCBBFF);
-  border-radius: 50rpx;
-}
-
-
-.uploader-bt2 {
-  width: 115px; 
-  margin-right:20px;
-  line-height: 100px;
-  font-size: 34rpx;
-  color: #007aff;
-  text-align:center;
-  background: linear-gradient(to bottom left,#EF33B1,#F6E6BC);
-  border-radius: 50rpx;
-}
-
-
-.uploader-bt3 {
-  width: 115px; 
-  margin-right:20px;
-  line-height: 100px;
-  font-size: 34rpx;
-  color: #007aff;
-  text-align:center;
-  background: linear-gradient(to bottom left,#52c852,#81f381);
-  border-radius: 50rpx;
-}
-
-
-.uploader-bt4 {
-  width: 115px; 
-  line-height: 120px;
-  font-size: 34rpx;
-  color: #007aff;
-  text-align:center;
-  background: linear-gradient(to bottom left,#FF7744,#FFA488);
-  border-radius: 50rpx;
-}
-
-.icon{
-  line-height: 60px;
-  color: white;
-  font-size :70px;
-  align-content: center;
-  justify-content: center;
-}
-
-.text{
-  line-height: 40px;
-  color:white;
-  font-size:20px;
-  align-content: center;
-  justify-content: center;
-}
-
-
-.uploader-container {
-  width: 100%;
-  height: 400rpx;
-  padding: 20rpx 20rpx 20rpx 0;
-  display: flex;
-  align-content: center;
-  justify-content: center;
-  box-sizing: border-box;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.uploader-image {
-  width: 100%;
-  height: 360rpx;
-}
-
-.tunnel {
-  padding: 0 0 0 40rpx;
-}
-
-.tunnel-text {
-  position: relative;
-  color: #222;
+.grid-menu {
+  margin-bottom: 50rpx;
   display: flex;
   flex-direction: row;
-  align-content: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.tunnel-text:first-child {
-  border-top: none;
-}
-
-.tunnel-switch {
-  position: absolute;
-  right: 20rpx;
-  top: -2rpx;
-}
-
-.disable {
-  color: #888;
-}
-
-.service {
-  position: fixed;
-  right: 40rpx;
-  bottom: 40rpx;
-  width: 140rpx;
-  height: 140rpx;
-  border-radius: 50%;
-  background: linear-gradient(#007aff, #0063ce);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-content: center;
+  flex-wrap: nowrap;
   justify-content: center;
-  transition: all 300ms ease;
+  align-items: center;
 }
 
-.service-button {
-  position: absolute;
-  top: 40rpx;
+.grid-menu-item {
+  width: 280rpx;
+  height: 280rpx;
+  text-align: center;
+  border-radius: 50rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.service:active {
-  box-shadow: none;
+.grid-menu__btn-icon {
+  line-height: 1;
+  color: white;
+  font-size: 140rpx;
 }
 
-.request-text {
-  padding: 20rpx 0;
-  font-size: 24rpx;
-  line-height: 36rpx;
-  word-break: break-all;
+.grid-menu__btn-text {
+  line-height: 1;
+  color: white;
+  font-size: 40rpx;
+  padding-bottom: 10rpx;
 }
 
+.grid-menu-1-1 {
+  margin-right: 50rpx;
+  background: linear-gradient(to bottom left, #52c852, #81f381);
+}
+
+.grid-menu-1-2 {
+  background: linear-gradient(to bottom left, #7744FF, #CCBBFF);
+}
+
+.grid-menu-2-1 {
+  margin-right: 50rpx;
+  background: linear-gradient(to bottom left, #EF33B1, #F6E6BC);
+}
+
+.grid-menu-2-2 {
+  background: linear-gradient(to bottom left, #FF7744, #FFA488);
+}

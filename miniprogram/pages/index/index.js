@@ -9,16 +9,16 @@ Page({
     takeSession: false,
     requestResult: ''
   },
-
-  onLoad: function() {
-    if (!wx.cloud) {
-      wx.redirectTo({
-        url: '../chooseLib/chooseLib',
-      })
-      return
-    }
-
-    // 获取用户信息
+  async onLoad() {
+    await wx.showLoading({
+      title: '加载中',
+      mask: true,
+    })
+    const loginRes = await wx.cloud.callFunction({
+      name: 'login',
+    })
+    app.globalData.openid = loginRes.result.openid
+    await wx.hideLoading()
     wx.getSetting({
       success: res => {
         if (res.authSetting['scope.userInfo']) {
@@ -36,7 +36,7 @@ Page({
     })
   },
 
-  onGetUserInfo: function(e) {
+  onGetUserInfo: function (e) {
     if (!this.data.logged && e.detail.userInfo) {
       this.setData({
         logged: true,
@@ -46,7 +46,7 @@ Page({
     }
   },
 
-  onGetOpenid: function() {
+  onGetOpenid: function () {
     // 调用云函数
     wx.cloud.callFunction({
       name: 'login',
@@ -81,7 +81,7 @@ Page({
         })
 
         const filePath = res.tempFilePaths[0]
-        
+
         // 上传图片
         const cloudPath = 'my-image' + filePath.match(/\.[^.]+?$/)[0]
         wx.cloud.uploadFile({
@@ -93,7 +93,7 @@ Page({
             app.globalData.fileID = res.fileID
             app.globalData.cloudPath = cloudPath
             app.globalData.imagePath = filePath
-            
+
             wx.navigateTo({
               url: '../storageConsole/storageConsole'
             })
