@@ -6,7 +6,7 @@ Component({
   },
   properties: {
     roomId: String,
-    drawerOpenId: String,
+    drawingOpenId: String,
   },
   data: {
     showForeColorPicker: false,
@@ -156,18 +156,18 @@ Component({
   },
   //// 观察者
   observers: {
-    async drawerOpenId(drawerOpenId) {
+    async drawingOpenId(drawingOpenId) {
       this.data._strokes = []
       this.data._strokesQueue = []
       this.data._drawingStrokes = {}
-      if (drawerOpenId !== app.globalData.openid) {
+      this.redraw()
+      if (drawingOpenId !== await app.getOpenIdAsync()) {
         this.data._myTurn = false
-        this.redraw()
       }
       await wx.cloud.callFunction({
         name: 'clearMyStrokes',
       })
-      if (drawerOpenId === app.globalData.openid) {
+      if (drawingOpenId === await app.getOpenIdAsync()) {
         this.data._myTurn = true
       }
     },

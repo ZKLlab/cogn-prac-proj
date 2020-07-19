@@ -2,7 +2,7 @@ const app = getApp()
 
 Page({
   data: {
-    drawerOpenId: '',
+    drawingOpenId: '',
   },
   onUnload(options) {
 
@@ -28,14 +28,14 @@ Page({
   onShareAppMessage() {
 
   },
-  handleDrawMyself() {
+  async handleDrawMyself() {
     this.setData({
-      drawerOpenId: app.globalData.openid,
+      drawingOpenId: await app.getOpenIdAsync(),
     })
   },
   handleWatch() {
     this.setData({
-      drawerOpenId: '',
+      drawingOpenId: '',
     })
   },
 })

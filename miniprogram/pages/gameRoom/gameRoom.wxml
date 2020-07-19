@@ -1,3 +1,3 @@
-<graffitiBoard room-id="15d399db5f119c120014359057c9985e" drawer-open-id="{{drawerOpenId}}" />
+<graffitiBoard room-id="15d399db5f119c120014359057c9985e" drawing-open-id="{{drawingOpenId}}" />
 <button bindtap="handleDrawMyself">自己画</button>
 <button bindtap="handleWatch">看别人画</button>

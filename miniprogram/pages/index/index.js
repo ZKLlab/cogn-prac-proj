@@ -7,15 +7,6 @@ Page({
     logged: false,
   },
   async onLoad() {
-    await wx.showLoading({
-      title: '加载中',
-      mask: true,
-    })
-    const loginRes = await wx.cloud.callFunction({
-      name: 'login',
-    })
-    app.globalData.openid = loginRes.result.openid
-    await wx.hideLoading()
     wx.getSetting({
       success: res => {
         if (res.authSetting['scope.userInfo']) {
