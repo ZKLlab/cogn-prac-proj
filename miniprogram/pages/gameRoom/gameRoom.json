@@ -1,11 +1,12 @@
 {
+  "disableScroll": true,
   "usingComponents": {
     "van-picker": "@vant/weapp/picker",
     "van-popup": "@vant/weapp/popup",
     "van-toast": "@vant/weapp/toast",
     "van-divider": "@vant/weapp/divider",
     "graffitiBoard": "/components/graffitiBoard/graffitiBoard",
-    "mdIcon": "/components/mdIcon/mdIcon",
-    "chatroom": "/components/chatroom/chatroom"
+    "chatArea": "/components/chatArea/chatArea",
+    "mdIcon": "/components/mdIcon/mdIcon"
   }
 }

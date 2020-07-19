@@ -11,10 +11,9 @@ Component({
     width: String,
   },
   data: {
-    showForeColorPicker: false,
+    myTurn: false,
     // 以下：纯数据字段
     _watcher: null,
-    _myTurn: false,
     _strokes: [],
     _strokesQueue: [],
     _drawingStrokes: {},
@@ -26,8 +25,7 @@ Component({
     //// 触摸事件
     // 触摸开始事件
     handleTouchStart(event) {
-      console.log(event)
-      if (this.data._myTurn) {
+      if (this.data.myTurn) {
         event.changedTouches.forEach(touch => {
           let { identifier, x, y } = touch
           x = Math.round(x * 750 / this.data._realWidth)
@@ -44,8 +42,7 @@ Component({
     },
     // 触摸移动事件
     handleTouchMove(event) {
-      console.log(event)
-      if (this.data._myTurn) {
+      if (this.data.myTurn) {
         event.changedTouches.forEach(touch => {
           let { identifier, x, y } = touch
           x = Math.round(x * 750 / this.data._realWidth)
@@ -57,8 +54,7 @@ Component({
     },
     // 触摸结束事件
     handleTouchEnd(event) {
-      console.log(event)
-      if (this.data._myTurn) {
+      if (this.data.myTurn) {
         event.changedTouches.forEach(touch => {
           let { identifier, x, y } = touch
           if (this.data._drawingStrokes[identifier].points.length > 1) {
@@ -121,7 +117,7 @@ Component({
           onChange: (snapshot) => {
             console.log(JSON.stringify(snapshot.docs).length)
             console.log(snapshot.docs)
-            if (!this.data._myTurn) {
+            if (!this.data.myTurn) {
               this.data._strokes = snapshot.docs
               this.redraw()
             }
@@ -171,13 +167,17 @@ Component({
       this.data._drawingStrokes = {}
       this.redraw()
       if (drawingOpenId !== await app.getOpenIdAsync()) {
-        this.data._myTurn = false
+        this.setData({
+          myTurn: false,
+        })
       }
       await wx.cloud.callFunction({
         name: 'clearMyStrokes',
       })
       if (drawingOpenId === await app.getOpenIdAsync()) {
-        this.data._myTurn = true
+        this.setData({
+          myTurn: true,
+        })
       }
     },
   },

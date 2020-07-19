@@ -1,10 +1,12 @@
 <view class="container">
+	<!-- 背景图像 -->
 	<image class="background" src="./background.png" mode="aspectFill"></image>
+
 	<!-- 用户信息 -->
 	<view class="userinfo">
 		<button open-type="getUserInfo" bindgetuserinfo="onGetUserInfo" class="userinfo-avatar" style="background-image: url({{avatarUrl}})"></button>
 		<view class="userinfo-nickname-wrapper">
-			<button class="userinfo-nickname">{{ userInfo.nickName }}</button>
+			<text class="userinfo-nickname">{{ userInfo.nickName }}</text>
 		</view>
 	</view>
 
@@ -34,14 +36,14 @@
 		</view>
 	</view>
 	<view class="grid-menu">
-		<!-- 即时通信 -->
+		<!-- 游戏词库 -->
 		<view>
-			<navigator url="../im/im" open-type="navigate" class="grid-menu-item grid-menu-2-1">
+			<navigator url="../thesaurus/thesaurus" open-type="navigate" class="grid-menu-item grid-menu-2-1">
 				<view class="grid-menu__btn-icon">
 					<van-icon name="chat-o" />
 				</view>
 				<view class="grid-menu__btn-text">
-					<text>即时通信</text>
+					<text>游戏词库</text>
 				</view>
 			</navigator>
 		</view>

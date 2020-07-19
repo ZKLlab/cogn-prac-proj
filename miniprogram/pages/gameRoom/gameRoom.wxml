@@ -1,6 +1,6 @@
 <view class="container">
 	<!-- 绘画板 -->
-	<graffitiBoard id="graffitiBoard" room-id="15d399db5f119c120014359057c9985e" drawing-open-id="{{drawingOpenId}}" color="{{color}}" width="{{width}}" />
+	<graffitiBoard id="graffitiBoard" class="graffiti-board" room-id="15d399db5f119c120014359057c9985e" drawing-open-id="{{drawingOpenId}}" color="{{color}}" width="{{width}}" />
 	<!-- 工具栏 -->
 	<view class="toolbar" wx:if="{{drawingOpenId === myOpenId}}">
 		<view class="toolbar-item" style="flex: 1.5">
@@ -32,9 +32,8 @@
 			<button class="toolbar-item__button" bindtap="handleWatch">看别人画 (测试)</button>
 		</view>
 	</view>
-
-	<!-- 聊天室demo -->
-	<chatroom style="width: 100%; height: 50%" envId="{{chatRoomEnvId}}" collection="{{chatRoomCollection}}" groupId="{{chatRoomGroupId}}" groupName="{{chatRoomGroupName}}" userInfo="{{userInfo}}" onGetUserInfo="{{onGetUserInfo}}" getOpenID="{{getOpenID}}" />
+	<!-- 聊天区域 -->
+	<chatArea class="chat-area" style="width: 100%; height: 50%" envId="{{chatRoomEnvId}}" collection="{{chatRoomCollection}}" groupId="{{chatRoomGroupId}}" groupName="{{chatRoomGroupName}}" userInfo="{{userInfo}}" onGetUserInfo="{{onGetUserInfo}}" getOpenID="{{getOpenID}}" />
 </view>
 
 <van-popup show="{{brushStylesPickerShown}}" position="bottom" bind:close="closeBrushStylesPicker">

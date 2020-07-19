@@ -1,0 +1,18 @@
+<scroll-view class="chatroom" scroll-y scroll-with-animation="{{scrollWithAnimation}}" scroll-top="{{scrollTop}}" scroll-into-view="{{scrollToMessage}}" bindscrolltoupper="onScrollToUpper">
+	<view wx:for="{{chats}}" wx:key="{{item._id}}" id="item-{{index}}" class="message{{openId == item._openid ? ' message__self' : ''}}">
+		<image class="message__avatar" src="{{item.avatar}}" mode="scaleToFill"></image>
+		<view class="message__main{{openId == item._openid ? ' message__self-main' : ''}}">
+			<view class="message__nickname">{{ item.nickName }}</view>
+			<view class="message__text-wrapper">
+				<view class="message__loading" wx:if="{{item.writeStatus === 'pending'}}">···</view>
+				<view class="message__text-content{{openId == item._openid ? ' message__self-text-content' : ''}}">{{ item.textContent }}</view>
+			</view>
+		</view>
+	</view>
+</scroll-view>
+<!-- 消息发送区域 应放在gameRoom页面中 -->
+<!-- <view class="footer">
+		<view class="message-sender" wx:if="{{userInfo}}">
+			<input class="text-input" type="text" confirm-type="send" bindconfirm="onConfirmSendText" cursor-spacing="20" value="{{textInputValue}}"></input>
+			<<image src="./photo.png" class="btn-send-image" mode="scaleToFill" bindtap="onChooseImage"></image>
+		</view> -->

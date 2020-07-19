@@ -1,10 +1,4 @@
 {
   "component": true,
-  "usingComponents": {
-    "van-button": "@vant/weapp/button",
-    "van-popup": "@vant/weapp/popup",
-    "van-row": "@vant/weapp/row",
-    "van-col": "@vant/weapp/col",
-    "mdIcon": "../mdIcon/mdIcon"
-  }
+  "usingComponents": {}
 }
