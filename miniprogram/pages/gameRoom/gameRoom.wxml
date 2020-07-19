@@ -23,8 +23,18 @@
 			</button>
 		</view>
 	</view>
-	<button bindtap="handleDrawMyself">自己画 (测试)</button>
-	<button bindtap="handleWatch">看别人画 (测试,默认)</button>
+	<!-- 测试工具栏 -->
+	<view class="toolbar">
+		<view class="toolbar-item" wx:if="{{drawingOpenId !== myOpenId}}">
+			<button class="toolbar-item__button" bindtap="handleDrawMyself">自己画 (测试)</button>
+		</view>
+		<view class="toolbar-item" wx:if="{{drawingOpenId === myOpenId}}">
+			<button class="toolbar-item__button" bindtap="handleWatch">看别人画 (测试)</button>
+		</view>
+	</view>
+
+	<!-- 聊天室demo -->
+	<chatroom style="width: 100%; height: 50%" envId="{{chatRoomEnvId}}" collection="{{chatRoomCollection}}" groupId="{{chatRoomGroupId}}" groupName="{{chatRoomGroupName}}" userInfo="{{userInfo}}" onGetUserInfo="{{onGetUserInfo}}" getOpenID="{{getOpenID}}" />
 </view>
 
 <van-popup show="{{brushStylesPickerShown}}" position="bottom" bind:close="closeBrushStylesPicker">

@@ -41,6 +41,17 @@ Page({
     width: Object.values(widths)[2],
     brushStylesPickerShown: false,
     brushStyleColumns: defaultBrushStyleColumns,
+    // 聊天室demo
+    avatarUrl: './user-unlogin.png',
+    userInfo: null,
+    logged: false,
+    takeSession: false,
+    requestResult: '',
+    chatRoomCollection: 'chatroom',
+    chatRoomGroupId: 'demo',
+    chatRoomGroupName: '聊天室',
+    onGetUserInfo: null,
+    getOpenID: app.getOpenIdAsync,
     // 以下：纯数据字段
     _penColor: '黑色',
     _toolWidth: { pen: '适中', eraser: '极粗' },
@@ -111,24 +122,18 @@ Page({
       icon: 'none',
     })
   },
-  async onLoad() {
-    this.setData({
-      myOpenId: await app.getOpenIdAsync(),
-    })
-  },
   onUnload(options) {
 
   },
-  onReady() {
-
+  async onReady() {
+    this.setData({
+      myOpenId: await app.getOpenIdAsync(),
+    })
   },
   onShow() {
 
   },
   onHide() {
-
-  },
-  onUnload() {
 
   },
   onPullDownRefresh() {
@@ -144,10 +149,55 @@ Page({
     this.setData({
       drawingOpenId: await app.getOpenIdAsync(),
     })
+    console.log(this.data.drawingOpenId, this.data.myOpenId)
   },
   handleWatch() {
     this.setData({
       drawingOpenId: '',
     })
+  },
+  onLoad: function () {
+    // 获取用户信息
+    wx.getSetting({
+      success: res => {
+        if (res.authSetting['scope.userInfo']) {
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+          wx.getUserInfo({
+            success: res => {
+              this.setData({
+                avatarUrl: res.userInfo.avatarUrl,
+                userInfo: res.userInfo
+              })
+            }
+          })
+        }
+      }
+    })
+
+    this.setData({
+      onGetUserInfo: this.onGetUserInfo,
+    })
+
+    wx.getSystemInfo({
+      success: res => {
+        console.log('system info', res)
+        if (res.safeArea) {
+          const { top, bottom } = res.safeArea
+          this.setData({
+            containerStyle: `padding-top: ${(/ios/i.test(res.system) ? 10 : 20) + top}px; padding-bottom: ${20 + res.windowHeight - bottom}px`,
+          })
+        }
+      },
+    })
+  },
+
+  onGetUserInfo(e) {
+    if (!this.logged && e.detail.userInfo) {
+      this.setData({
+        logged: true,
+        avatarUrl: e.detail.userInfo.avatarUrl,
+        userInfo: e.detail.userInfo
+      })
+    }
   },
 })
