@@ -1,4 +1,5 @@
 <view class="container">
+	<image class = 'background' src = "./background.png" mode="aspectFill"></image>
 	<!-- 用户信息 -->
 	<view class="userinfo">
 		<button open-type="getUserInfo" bindgetuserinfo="onGetUserInfo" class="userinfo-avatar" style="background-image: url({{avatarUrl}})"></button>

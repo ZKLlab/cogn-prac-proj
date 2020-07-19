@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "graffitiBoard": "/components/graffitiBoard/graffitiBoard"
+    "graffitiBoard": "/components/graffitiBoard/graffitiBoard",
+    "chatroom": "/components/chatroom/chatroom"
   }
 }
