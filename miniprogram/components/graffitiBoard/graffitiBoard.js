@@ -7,6 +7,8 @@ Component({
   properties: {
     roomId: String,
     drawingOpenId: String,
+    color: String,
+    width: String,
   },
   data: {
     showForeColorPicker: false,
@@ -22,19 +24,18 @@ Component({
   },
   methods: {
     //// 触摸事件
-    //// TODO: 支持多点触控
     // 触摸开始事件
     handleTouchStart(event) {
       console.log(event)
       if (this.data._myTurn) {
         event.changedTouches.forEach(touch => {
           let { identifier, x, y } = touch
-          x = Math.min(Math.max(Math.round(x * 750 / this.data._realWidth), 0), 750)
-          y = Math.min(Math.max(Math.round(y * 750 / this.data._realWidth), 0), 750)
+          x = Math.round(x * 750 / this.data._realWidth)
+          y = Math.round(y * 750 / this.data._realWidth)
           this.data._drawingStrokes[identifier] = {
             roomId: this.properties.roomId,
-            strokeStyle: '#000000',
-            lineWidth: 5,
+            strokeStyle: this.properties.color,
+            lineWidth: this.properties.width,
             points: [[x, y]],
           }
         })
@@ -47,8 +48,8 @@ Component({
       if (this.data._myTurn) {
         event.changedTouches.forEach(touch => {
           let { identifier, x, y } = touch
-          x = Math.min(Math.max(Math.round(x * 750 / this.data._realWidth), 0), 750)
-          y = Math.min(Math.max(Math.round(y * 750 / this.data._realWidth), 0), 750)
+          x = Math.round(x * 750 / this.data._realWidth)
+          y = Math.round(y * 750 / this.data._realWidth)
           this.data._drawingStrokes[identifier].points.push([x, y])
         })
         this.redraw()
@@ -62,7 +63,7 @@ Component({
           let { identifier, x, y } = touch
           if (this.data._drawingStrokes[identifier].points.length > 1) {
             x = Math.min(Math.max(Math.round(x * 750 / this.data._realWidth), 0), 750)
-            y = Math.min(Math.max(Math.round(y * 750 / this.data._realWidth), 0), 750)
+            y = Math.min(Math.max(Math.round(y * 750 / this.data._realWidth), 0), 600)
             this.data._drawingStrokes[identifier].points.push([x, y])
           } else {
             x = this.data._drawingStrokes[identifier].points[0][0]
@@ -83,9 +84,9 @@ Component({
       if (this.data._ctx != null) {
         this.data._ctx.fillStyle = '#ffffff'
         this.data._ctx.fillRect(0, 0, this.data._realWidth, this.data._realWidth)
-        this.data._strokes.concat(Object.values(this.data._drawingStrokes)).forEach(stroke => {
+        this.data._strokes.concat(Object.values(this.data._drawingStrokes)).forEach((stroke, index) => {
           this.data._ctx.beginPath()
-          this.data._ctx.lineWidth = stroke.lineWidth
+          this.data._ctx.lineWidth = Math.ceil(stroke.lineWidth * this.data._realWidth / 750)
           this.data._ctx.strokeStyle = stroke.strokeStyle
           this.data._ctx.lineCap = 'round'
           for (let i = 0; i < stroke.points.length - 1; i++) {
@@ -96,6 +97,15 @@ Component({
           }
           this.data._ctx.closePath()
           this.data._ctx.stroke()
+          if (index >= this.data._strokes.length && stroke.strokeStyle === '#FFFFFF') {
+            this.data._ctx.beginPath()
+            const point = stroke.points[stroke.points.length - 1]
+            this.data._ctx.lineWidth = 1
+            this.data._ctx.strokeStyle = '#CCCCCC'
+            this.data._ctx.arc(point[0] * this.data._realWidth / 750, point[1] * this.data._realWidth / 750, Math.ceil(stroke.lineWidth * this.data._realWidth / 750 / 2), 0, 2 * Math.PI)
+            this.data._ctx.closePath()
+            this.data._ctx.stroke()
+          }
         })
       }
     },
@@ -143,16 +153,15 @@ Component({
         this.data._addStrokesFlag = false
       }
     },
-    // showForeColorPicker() {
-    //   this.setData({
-    //     showForeColorPicker: true,
-    //   })
-    // },
-    // handleForeColorPickerClosed() {
-    //   this.setData({
-    //     showForeColorPicker: false,
-    //   })
-    // },
+    async clearAll() {
+      this.data._strokes = []
+      this.data._strokesQueue = []
+      this.data._drawingStrokes = {}
+      await wx.cloud.callFunction({
+        name: 'clearMyStrokes',
+      })
+      this.redraw()
+    }
   },
   //// 观察者
   observers: {

@@ -1,1 +1,1 @@
-<view class="icon" style="background-image: {{backgroundImage}}; width: {{size}}; height: {{size}}"></view>
+<view class="icon" style="background-image: {{backgroundImage}}; width: {{iconSize}}; height: {{iconSize}}"></view>

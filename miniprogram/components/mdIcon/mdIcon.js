@@ -10,12 +10,14 @@ Component({
   },
   data: {
     backgroundImage: '',
-    size: '',
+    iconSize: '',
   },
-  attached() {
-    this.setData({
-      backgroundImage: getSvg(mdi[this.properties.type], this.properties.color),
-      size: this.properties.size,
-    })
+  observers: {
+    'type, color, size'() {
+      this.setData({
+        backgroundImage: getSvg(mdi[this.properties.type], this.properties.color),
+        iconSize: this.properties.size,
+      })
+    },
   },
 })

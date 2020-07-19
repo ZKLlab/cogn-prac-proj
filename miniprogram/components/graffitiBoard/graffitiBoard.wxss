@@ -1,31 +1,4 @@
 .graffiti-canvas {
   width: 750rpx;
-  height: 750rpx;
+  height: 600rpx;
 }
-
-.graffiti-controls {
-  width: 750rpx;
-  padding: 5rpx;
-  border-top: 1px solid #ebedf0;
-  border-bottom: 1px solid #ebedf0;
-}
-
-.graffiti-controls__icon-button button {
-  min-width: 75rpx;
-  width: 75rpx;
-  height: 75rpx;
-  margin: 5rpx;
-  text-align: center;
-}
-
-.graffiti-controls__icon-button mdIcon {
-  margin-top: -5rpx;
-}
-
-.graffiti-controls__icon-button__color {
-  margin: -20rpx auto 0 auto;
-  width: 30rpx;
-  height: 7.5rpx;
-  background: red;
-}
-

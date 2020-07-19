@@ -1,10 +1,40 @@
-/* miniprogram/pages/gameRoom/gameRoom.wxss */
-.toolbar{
-  width:100%;
+.toolbar {
+  width: 100%;
+  height: 60rpx;
   background: #E0E0FF;
-  font-size:15px;
-  display:flex;
-  flex-direction:row;
-  justify-content:space-around;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
   align-items: center;
+  margin: 0 -1px 0 0;
+}
+
+.toolbar-item {
+  flex: 1;
+}
+
+.toolbar-item__button {
+  font-size: 25rpx;
+  line-height: 60rpx;
+  height: 60rpx;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0;
+}
+
+.toolbar-item__button-text {
+  margin-left: 10rpx;
+}
+
+.brush-preview-wrapper {
+  display: flex;
+  align-items: center;
+  height: 150rpx;
+  margin-bottom: -16px;
+}
+
+.brush-preview {
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 1px solid;
+  transition: all 0.2s;
 }

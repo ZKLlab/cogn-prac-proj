@@ -1,5 +1,5 @@
 <view class="container">
-	<image class = 'background' src = "./background.png" mode="aspectFill"></image>
+	<image class="background" src="./background.png" mode="aspectFill"></image>
 	<!-- 用户信息 -->
 	<view class="userinfo">
 		<button open-type="getUserInfo" bindgetuserinfo="onGetUserInfo" class="userinfo-avatar" style="background-image: url({{avatarUrl}})"></button>
@@ -22,7 +22,7 @@
 			</navigator>
 		</view>
 		<!-- 创建房间 -->
-		<view class="grid-menu-row-2">
+		<view>
 			<navigator url="../gameRoom/gameRoom" open-type="navigate" class="grid-menu-item grid-menu-1-2">
 				<view class="grid-menu__btn-icon">
 					<van-icon name="wap-home-o" />

@@ -1,28 +1,36 @@
 <view class="container">
-	<!--绘画板-->
-	<graffitiBoard room-id="15d399db5f119c120014359057c9985e" drawer-open-id="{{drawerOpenId}}" />
-	<!--工具栏-->
-	<view class="toolbar">
-		<view>
-			<picker mode='selector' range='{{selectorWidth}}' bindchange='selectorChange'>
-				<view>粗细{{selector}}</view>
-			</picker>
+	<!-- 绘画板 -->
+	<graffitiBoard id="graffitiBoard" room-id="15d399db5f119c120014359057c9985e" drawing-open-id="{{drawingOpenId}}" color="{{color}}" width="{{width}}" />
+	<!-- 工具栏 -->
+	<view class="toolbar" wx:if="{{drawingOpenId === myOpenId}}">
+		<view class="toolbar-item" style="flex: 1.5">
+			<button class="toolbar-item__button" bindtap="showBrushStylesPicker">
+				<mdIcon type="mdiBrush" color="{{tool === 'pen' ? color : 'rgba(0, 0, 0, 0.3)'}}" size="35rpx" />
+				<mdIcon type="mdiEraser" color="{{tool === 'eraser' ? '#232323' : 'rgba(0, 0, 0, 0.3)'}}" size="35rpx" />
+				<text class="toolbar-item__button-text">笔触设置</text>
+			</button>
 		</view>
-		<view>
-			<picker mode='selector' range='{{selectorColor}}' bindchange='selectorChange'>
-				<view>颜色{{selector}}</view>
-			</picker>
+		<view class="toolbar-item">
+			<button class="toolbar-item__button" bindtap="handleClearAll">
+				<mdIcon type="mdiDeleteSweepOutline" color="#232323" size="35rpx" />
+				<text class="toolbar-item__button-text">清空</text>
+			</button>
 		</view>
-		<view>
-			<button style="font-size:15px">撤销</button>
-		</view>
-		<view>
-			<button style="font-size:15px">清空</button>
-		</view>
-		<view>
-			<button style="font-size:15px">橡皮</button>
+		<view class="toolbar-item">
+			<button class="toolbar-item__button" bindtap="handleUndo">
+				<mdIcon type="mdiUndo" color="#232323" size="35rpx" />
+				<text class="toolbar-item__button-text">撤销</text>
+			</button>
 		</view>
 	</view>
-	<button bindtap="handleDrawMyself">自己画</button>
-	<button bindtap="handleWatch">看别人画</button>
+	<button bindtap="handleDrawMyself">自己画 (测试)</button>
+	<button bindtap="handleWatch">看别人画 (测试,默认)</button>
 </view>
+
+<van-popup show="{{brushStylesPickerShown}}" position="bottom" bind:close="closeBrushStylesPicker">
+	<view class="brush-preview-wrapper">
+		<view class="brush-preview" style="width: {{width}}rpx; height: {{width}}rpx; background: {{color}}; color: {{previewBorderColor}}"></view>
+	</view>
+	<van-divider hairline />
+	<van-picker columns="{{brushStyleColumns}}" bind:change="handleBrushStylesChanged" />
+</van-popup>

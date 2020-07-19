@@ -13,7 +13,7 @@
     "pages/im/im",
     "pages/im/room/room",
     "pages/gameRoom/gameRoom",
-    "pages/ranklist/ranklist"
+    "pages/rankList/rankList"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
