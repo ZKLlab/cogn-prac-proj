@@ -1,5 +1,6 @@
-<!-- 画板部分 -->
-<canvas type="2d" class="graffiti-canvas" id="graffitiCanvas" bindtouchstart="handleTouchStart" bindtouchmove="handleTouchMove" bindtouchend="handleTouchEnd" disable-scroll />
+<view class = "container">
+	<!-- 画板部分 -->
+	<canvas type="2d" class="graffiti-canvas" id="graffitiCanvas" bindtouchstart="handleTouchStart" bindtouchmove="handleTouchMove" bindtouchend="handleTouchEnd" disable-scroll />
 <!-- 控件部分 -->
 <!-- view class="graffiti-controls">
 	<van-button class="graffiti-controls__icon-button" bindtap="showForeColorPicker">
@@ -27,3 +28,5 @@
 		<van-col span="6">span: 8</van-col>
 	</van-row>
 </van-popup> -->
+
+</view>

@@ -1,3 +1,29 @@
-<graffitiBoard room-id="15d399db5f119c120014359057c9985e" drawer-open-id="{{drawerOpenId}}" />
-<button bindtap="handleDrawMyself">自己画</button>
-<button bindtap="handleWatch">看别人画</button>
+
+  <view class = "container">
+    <!--绘画板-->
+    <graffitiBoard room-id="15d399db5f119c120014359057c9985e" drawer-open-id="{{drawerOpenId}}" />
+    <!--工具栏-->
+   	 <view class = "toolbar">
+      <view>
+        <picker mode = 'selector' range = '{{selectorWidth}}' bindchange = 'selectorChange'>
+          <view>粗细{{selector}}</view>
+        </picker>
+      </view>
+      <view>
+       <picker mode = 'selector' range = '{{selectorColor}}' bindchange = 'selectorChange'>
+          <view>颜色{{selector}}</view>
+        </picker>
+      </view>
+      <view>
+        <button style="font-size:15px">撤销</button>
+      </view>
+      <view>
+        <button style="font-size:15px">清空</button>
+      </view>
+      <view>
+        <button style="font-size:15px">橡皮</button>
+      </view>
+    </view>
+    <button bindtap="handleDrawMyself">自己画</button>
+    <button bindtap="handleWatch">看别人画</button>
+  </view>

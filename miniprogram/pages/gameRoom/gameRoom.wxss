@@ -1,1 +1,10 @@
 /* miniprogram/pages/gameRoom/gameRoom.wxss */
+.toolbar{
+  width:100%;
+  background: #E0E0FF;
+  font-size:15px;
+  display:flex;
+  flex-direction:row;
+  justify-content:space-around;
+  align-items: center;
+}
