@@ -1,5 +1,5 @@
 /* miniprogram/pages/gameRoom/gameRoom.wxss */
-.toolbar{
+.toolbar, .draw{
   width:100%;
   background: #E0E0FF;
   font-size:15px;

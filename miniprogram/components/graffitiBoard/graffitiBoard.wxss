@@ -1,6 +1,6 @@
 .graffiti-canvas {
   width: 750rpx;
-  height: 750rpx;
+  height: 450rpx;
 }
 
 .graffiti-controls {

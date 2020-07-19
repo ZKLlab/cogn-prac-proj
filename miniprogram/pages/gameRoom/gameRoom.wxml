@@ -24,6 +24,20 @@
         <button style="font-size:15px">橡皮</button>
       </view>
     </view>
-    <button bindtap="handleDrawMyself">自己画</button>
-    <button bindtap="handleWatch">看别人画</button>
+    <view class = "draw">
+      <button bindtap="handleDrawMyself">自己画</button>
+      <button bindtap="handleWatch">看别人画</button>
+    </view>
+
+    <!--聊天室-->
+    <chatroom
+    style="width: 100%; height: 50%"
+    envId="{{chatRoomEnvId}}"
+    collection="{{chatRoomCollection}}"
+    groupId="{{chatRoomGroupId}}"
+    groupName="{{chatRoomGroupName}}"
+    userInfo="{{userInfo}}"
+    onGetUserInfo="{{onGetUserInfo}}"
+    getOpenID="{{getOpenID}}"
+  ></chatroom>
   </view>
