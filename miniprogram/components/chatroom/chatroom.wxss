@@ -5,31 +5,6 @@
   flex-direction: column;
 }
 
-.chatroom .header {
-  flex-basis: fit-content;
-  display: flex;
-  flex-direction: row;
-  border-bottom: 1px solid #ddd;
-  padding: 20rpx 0 30rpx;
-  font-size: 30rpx;
-  /*background: rgb(34,187,47);
-  color: rgba(255, 255, 255, 1) */
-  /* font-family: 'Microsoft YaHei' */
-}
-
-.chatroom .header .left {
-  flex: 1;
-}
-
-.chatroom .header .middle {
-  flex: 2;
-  text-align: center;
-}
-
-.chatroom .header .right {
-  flex: 1;
-}
-
 .chatroom .body {
   flex: 2;
   display: flex;
