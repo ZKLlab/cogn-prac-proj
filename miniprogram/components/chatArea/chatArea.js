@@ -33,8 +33,8 @@ Component({
       this.properties.onGetUserInfo(e)
     },
 
-    getOpenID() { 
-      return this.properties.getOpenID() 
+    getOpenID() {
+      return this.properties.getOpenID()
     },
 
     mergeCommonCriteria(criteria) {
@@ -201,78 +201,6 @@ Component({
       }, '发送文字失败')
     },
 
-    async onChooseImage(e) {
-      wx.chooseImage({
-        count: 1,
-        sourceType: ['album', 'camera'],
-        success: async res => {
-          const { envId, collection } = this.properties
-          const doc = {
-            _id: `${Math.random()}_${Date.now()}`,
-            groupId: this.data.groupId,
-            avatar: this.data.userInfo.avatarUrl,
-            nickName: this.data.userInfo.nickName,
-            msgType: 'image',
-            sendTime: new Date(),
-            sendTimeTS: Date.now(), // fallback
-          }
-
-          this.setData({
-            chats: [
-              ...this.data.chats,
-              {
-                ...doc,
-                _openid: this.data.openId,
-                tempFilePath: res.tempFilePaths[0],
-                writeStatus: 0,
-              },
-            ]
-          })
-          this.scrollToBottom(true)
-
-          const uploadTask = wx.cloud.uploadFile({
-            cloudPath: `${this.data.openId}/${Math.random()}_${Date.now()}.${res.tempFilePaths[0].match(/\.(\w+)$/)[1]}`,
-            filePath: res.tempFilePaths[0],
-            config: {
-              env: envId,
-            },
-            success: res => {
-              this.try(async () => {
-                await this.db.collection(collection).add({
-                  data: {
-                    ...doc,
-                    imgFileID: res.fileID,
-                  },
-                })
-              }, '发送图片失败')
-            },
-            fail: e => {
-              this.showError('发送图片失败', e)
-            },
-          })
-
-          uploadTask.onProgressUpdate(({ progress }) => {
-            this.setData({
-              chats: this.data.chats.map(chat => {
-                if (chat._id === doc._id) {
-                  return {
-                    ...chat,
-                    writeStatus: progress,
-                  }
-                } else return chat
-              })
-            })
-          })
-        },
-      })
-    },
-
-    onMessageImageTap(e) {
-      wx.previewImage({
-        urls: [e.target.dataset.fileid],
-      })
-    },
-
     scrollToBottom(force) {
       if (force) {
         console.log('force scroll to bottom')
@@ -280,8 +208,8 @@ Component({
         return
       }
 
-      this.createSelectorQuery().select('.chatroom').boundingClientRect(bodyRect => {
-        this.createSelectorQuery().select(`.chatroom`).scrollOffset(scroll => {
+      this.createSelectorQuery().select('.chat-area').boundingClientRect(bodyRect => {
+        this.createSelectorQuery().select('.chat-area').scrollOffset(scroll => {
           if (scroll.scrollTop + bodyRect.height * 3 > scroll.scrollHeight) {
             console.log('should scroll to bottom')
             this.setData(SETDATA_SCROLL_TO_BOTTOM)

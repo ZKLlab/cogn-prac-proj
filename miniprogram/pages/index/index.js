@@ -23,13 +23,39 @@ Page({
       }
     })
   },
-  onGetUserInfo(e) {
-    if (!this.data.logged && e.detail.userInfo) {
+  processLoginCallback(event) {
+    if (!this.data.logged && event.detail.userInfo) {
       this.setData({
         logged: true,
-        avatarUrl: e.detail.userInfo.avatarUrl,
-        userInfo: e.detail.userInfo
+        avatarUrl: event.detail.userInfo.avatarUrl,
+        userInfo: event.detail.userInfo,
       })
+    }
+  },
+  async handleQuickStart(event) {
+    this.processLoginCallback(event)
+    wx.showToast({
+      title: '开发中',
+      icon: 'none',
+    })
+  },
+  async handleCreateRoom(event) {
+    this.processLoginCallback(event)
+    if (this.data.logged) {
+      // TODO: 选择词库
+      await wx.showLoading({
+        title: '请稍等',
+      })
+      await wx.cloud.callFunction({
+        name: 'createRoom',
+        data: {
+          userInfo: this.data.userInfo,
+        }
+      })
+      await wx.redirectTo({
+        url: '../gameRoom/gameRoom',
+      })
+      await wx.hideLoading()
     }
   },
 })

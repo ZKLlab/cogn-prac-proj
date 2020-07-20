@@ -1,5 +1,5 @@
-<scroll-view class="chat-area" scroll-y scroll-with-animation="{{scrollWithAnimation}}" scroll-top="{{scrollTop}}" scroll-into-view="{{scrollToMessage}}" bindscrolltoupper="onScrollToUpper">
-	<view wx:for="{{chats}}" wx:key="{{item._id}}" id="item-{{index}}" class="message{{openId == item._openid ? ' message__self' : ''}}">
+<scroll-view class="chat-area" scroll-y scroll-with-animation="{{scrollWithAnimation}}" scroll-top="{{scrollTop}}" scroll-into-view="{{scrollToMessage}}" bindscrolltoupper="onScrollToUpper" enable-flex>
+	<view wx:for="{{chats}}" wx:key="_id" id="item-{{index}}" class="message{{openId == item._openid ? ' message__self' : ''}}">
 		<image class="message__avatar" src="{{item.avatar}}" mode="scaleToFill"></image>
 		<view class="message__main{{openId == item._openid ? ' message__self-main' : ''}}">
 			<view class="message__nickname">{{ item.nickName }}</view>

@@ -12,5 +12,11 @@
     "navigationBarTitleText": "你画我猜",
     "navigationBarTextStyle": "white"
   },
+  "plugins": {
+    "WechatSI": {
+      "version": "0.3.4",
+      "provider": "wx069ba97219f66d99"
+    }
+  },
   "sitemapLocation": "sitemap.json"
 }

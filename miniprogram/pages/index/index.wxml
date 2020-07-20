@@ -3,36 +3,36 @@
 	<image class="background" src="./background.png" mode="aspectFill"></image>
 
 	<!-- 用户信息 -->
-	<view class="userinfo">
-		<button open-type="getUserInfo" bindgetuserinfo="onGetUserInfo" class="userinfo-avatar" style="background-image: url({{avatarUrl}})"></button>
+	<button open-type="getUserInfo" class="userinfo" bindgetuserinfo="processLoginCallback">
+		<view class="userinfo-avatar" style="background-image: url({{avatarUrl}})"></view>
 		<view class="userinfo-nickname-wrapper">
 			<text class="userinfo-nickname">{{ userInfo.nickName }}</text>
 		</view>
-	</view>
+	</button>
 
 	<!-- 主菜单 -->
 	<view class="grid-menu">
 		<!-- 快速开始 -->
 		<view>
-			<navigator url="../gameRoom/gameRoom" open-type="redirect" class="grid-menu-item grid-menu-1-1">
+			<button open-type="getUserInfo" class="grid-menu-item grid-menu-1-1" bindgetuserinfo="handleQuickStart">
 				<view class="grid-menu__btn-icon">
 					<van-icon name="edit" />
 				</view>
 				<view class="grid-menu__btn-text">
 					<text>快速开始</text>
 				</view>
-			</navigator>
+			</button>
 		</view>
 		<!-- 创建房间 -->
 		<view>
-			<navigator url="../gameRoom/gameRoom" open-type="navigate" class="grid-menu-item grid-menu-1-2">
+			<button open-type="getUserInfo" class="grid-menu-item grid-menu-1-2" bindgetuserinfo="handleCreateRoom">
 				<view class="grid-menu__btn-icon">
 					<van-icon name="wap-home-o" />
 				</view>
 				<view class="grid-menu__btn-text">
 					<text>创建房间</text>
 				</view>
-			</navigator>
+			</button>
 		</view>
 	</view>
 	<view class="grid-menu">

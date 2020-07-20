@@ -28,6 +28,9 @@ const defaultBrushStyleColumns = [
   { values: Object.keys(widths), className: 'widths', defaultIndex: 2 },
 ]
 
+const siPlugin = requirePlugin('WechatSI')
+const siManager = siPlugin.getRecordRecognitionManager()
+
 Page({
   options: {
     pureDataPattern: /^_/,
@@ -50,7 +53,7 @@ Page({
     chatRoomCollection: 'chatroom',
     chatRoomGroupId: 'demo',
     chatRoomGroupName: '聊天室',
-    onGetUserInfo: null,
+    onGetUserInfo: () => null,
     getOpenID: app.getOpenIdAsync,
     // 以下：纯数据字段
     _penColor: '黑色',
@@ -122,6 +125,17 @@ Page({
       icon: 'none',
     })
   },
+  handleRecognizeStart() {
+    console.log(1)
+    siManager.start({ lang: 'zh_CN' })
+  },
+  handleRecognizeStop() {
+    console.log(2)
+    siManager.stop()
+  },
+  onLoad(query) {
+
+  },
   onUnload(options) {
 
   },
@@ -129,6 +143,16 @@ Page({
     this.setData({
       myOpenId: await app.getOpenIdAsync(),
     })
+    siManager.onStop = res => {
+      console.log(res)
+      wx.setNavigationBarTitle({
+        title: res.result,
+      })
+    }
+    siManager.onError = res => {
+      console.log(res)
+    }
+    app.getRecordAuth()
   },
   onShow() {
 
@@ -155,49 +179,5 @@ Page({
     this.setData({
       drawingOpenId: '',
     })
-  },
-  onLoad: function () {
-    // 获取用户信息
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: res => {
-              this.setData({
-                avatarUrl: res.userInfo.avatarUrl,
-                userInfo: res.userInfo
-              })
-            }
-          })
-        }
-      }
-    })
-
-    this.setData({
-      onGetUserInfo: this.onGetUserInfo,
-    })
-
-    wx.getSystemInfo({
-      success: res => {
-        console.log('system info', res)
-        if (res.safeArea) {
-          const { top, bottom } = res.safeArea
-          this.setData({
-            containerStyle: `padding-top: ${(/ios/i.test(res.system) ? 10 : 20) + top}px; padding-bottom: ${20 + res.windowHeight - bottom}px`,
-          })
-        }
-      },
-    })
-  },
-
-  onGetUserInfo(e) {
-    if (!this.logged && e.detail.userInfo) {
-      this.setData({
-        logged: true,
-        avatarUrl: e.detail.userInfo.avatarUrl,
-        userInfo: e.detail.userInfo
-      })
-    }
   },
 })
