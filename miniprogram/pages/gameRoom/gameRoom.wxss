@@ -16,16 +16,19 @@ page {
 }
 
 /* 工具栏部分 */
-.toolbar {
-  flex: 0 0 auto;
+.toolbar{
   width: 100%;
   height: 60rpx;
-  background: #E0E0FF;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
   margin: 0 -1px -1px 0;
+}
+
+.toolbar{
+  flex: 0 0 auto;
+  background: #E0E0FF;
 }
 
 .toolbar-item {
@@ -63,4 +66,42 @@ page {
 .chat-area {
   height: 0;
   flex: 1 1 auto;
+}
+
+/*消息输入部分*/
+
+.footer {
+  flex-basis: fit-content;
+  display: flex;
+  flex-direction: row;
+  border-top: 1px solid #ddd;
+  font-size: 10rpx;
+  padding: 20rpx 30rpx;
+  background: rgb(246, 246, 246);
+}
+
+.footer .message-sender {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+}
+
+.message-sender .text-input {
+  flex: 1;
+  font-size: 16px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  padding: 3px 6px;
+  margin: 0 10px 0 5px;
+  background: #fff;
+}
+
+.btn-send-record {
+  font-size:30rpx;
+  align-self: center;
+}
+
+.recording-message{
+  width:60rpx;
+  height:60rpx;
 }

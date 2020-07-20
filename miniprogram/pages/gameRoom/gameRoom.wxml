@@ -34,11 +34,13 @@
 	</view>
 	<!-- 聊天区域 -->
 	<chatArea class="chat-area" envId="{{chatRoomEnvId}}" collection="{{chatRoomCollection}}" groupId="{{chatRoomGroupId}}" groupName="{{chatRoomGroupName}}" userInfo="{{userInfo}}" onGetUserInfo="{{onGetUserInfo}}" getOpenID="{{getOpenID}}" />
-	<!-- 语音功能测试 -->
-	<view class="toolbar">
-		<view class="toolbar-item">
-			<button class="toolbar-item__button" catchtouchstart="handleRecognizeStart" catchtouchend="handleRecognizeStop">按住说话</button>
-		</view>
+	<!-- 消息输入功能 -->
+	<view class="footer">
+		<view class="message-sender" >
+			<input class="text-input" type="text" confirm-type="send" bindinput = "contentInput" cusor-spacing="20" value="{{content}}"></input>
+			<image src = "./recording.png" class= "recording-message" hidden = "{{mHidden}}"></image>
+			<button class="btn-send-record" catchtouchstart="handleRecognizeStart" catchtouchend="handleRecognizeStop">长按说话</button>
+		</view>	
 	</view>
 </view>
 

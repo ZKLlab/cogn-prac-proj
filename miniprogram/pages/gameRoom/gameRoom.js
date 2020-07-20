@@ -58,6 +58,9 @@ Page({
     // 以下：纯数据字段
     _penColor: '黑色',
     _toolWidth: { pen: '适中', eraser: '极粗' },
+    // 输入框内容
+    content:'',
+    mHidden:true,
   },
   selectorWidthChange(e) {
     const value = this.data.selectorWidth[parseInt(e.detail.value)]
@@ -127,10 +130,16 @@ Page({
   },
   handleRecognizeStart() {
     console.log(1)
+    this.setData({
+      mHidden: false,
+    })
     siManager.start({ lang: 'zh_CN' })
   },
   handleRecognizeStop() {
     console.log(2)
+    this.setData({
+        mHidden: true,
+    })
     siManager.stop()
   },
   onLoad(query) {
@@ -139,14 +148,22 @@ Page({
   onUnload(options) {
 
   },
+
+  //Console输出输入框内容
+  contentInput(e){
+    console.log(e.detail.value)
+  },
+
   async onReady() {
+    const that = this;
     this.setData({
       myOpenId: await app.getOpenIdAsync(),
     })
     siManager.onStop = res => {
       console.log(res)
-      wx.setNavigationBarTitle({
-        title: res.result,
+      /*var text = that.data.content + res.result;*/
+      that.setData({
+        content: res.result,
       })
     }
     siManager.onError = res => {
