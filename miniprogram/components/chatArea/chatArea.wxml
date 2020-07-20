@@ -1,4 +1,4 @@
-<scroll-view class="chatroom" scroll-y scroll-with-animation="{{scrollWithAnimation}}" scroll-top="{{scrollTop}}" scroll-into-view="{{scrollToMessage}}" bindscrolltoupper="onScrollToUpper">
+<scroll-view class="chat-area" scroll-y scroll-with-animation="{{scrollWithAnimation}}" scroll-top="{{scrollTop}}" scroll-into-view="{{scrollToMessage}}" bindscrolltoupper="onScrollToUpper">
 	<view wx:for="{{chats}}" wx:key="{{item._id}}" id="item-{{index}}" class="message{{openId == item._openid ? ' message__self' : ''}}">
 		<image class="message__avatar" src="{{item.avatar}}" mode="scaleToFill"></image>
 		<view class="message__main{{openId == item._openid ? ' message__self-main' : ''}}">
@@ -9,6 +9,7 @@
 			</view>
 		</view>
 	</view>
+	<view style="height: 50rpx"></view>
 </scroll-view>
 <!-- 消息发送区域 应放在gameRoom页面中 -->
 <!-- <view class="footer">

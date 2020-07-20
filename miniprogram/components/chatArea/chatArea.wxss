@@ -1,10 +1,10 @@
-.chatroom {
+.chat-area {
   width: 750rpx;
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: rgb(237, 237, 237);
-  padding-bottom: 16rpx;
+  background: #EDEDED;
+  padding: 0 30rpx;
 }
 
 .message {
@@ -14,7 +14,7 @@
   margin: 12rpx 0;
 }
 
-.message.message__self {
+.message__self {
   flex-direction: row-reverse;
 }
 

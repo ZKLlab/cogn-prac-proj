@@ -33,7 +33,7 @@
 		</view>
 	</view>
 	<!-- 聊天区域 -->
-	<chatArea class="chat-area" style="width: 100%; height: 50%" envId="{{chatRoomEnvId}}" collection="{{chatRoomCollection}}" groupId="{{chatRoomGroupId}}" groupName="{{chatRoomGroupName}}" userInfo="{{userInfo}}" onGetUserInfo="{{onGetUserInfo}}" getOpenID="{{getOpenID}}" />
+	<chatArea class="chat-area" envId="{{chatRoomEnvId}}" collection="{{chatRoomCollection}}" groupId="{{chatRoomGroupId}}" groupName="{{chatRoomGroupName}}" userInfo="{{userInfo}}" onGetUserInfo="{{onGetUserInfo}}" getOpenID="{{getOpenID}}" />
 </view>
 
 <van-popup show="{{brushStylesPickerShown}}" position="bottom" bind:close="closeBrushStylesPicker">

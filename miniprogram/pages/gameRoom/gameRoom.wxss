@@ -61,5 +61,6 @@ page {
 
 /* 聊天部分 */
 .chat-area {
+  height: 0;
   flex: 1 1 auto;
 }
