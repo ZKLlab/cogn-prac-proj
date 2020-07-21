@@ -1,1 +1,88 @@
-/* miniprogram/pages/rankList/rankList.wxss */
+.title {
+  display: flex;
+  flex-direction: column;
+  padding: 40rpx;
+  align-items: center;
+}
+
+.share-buttom{
+  background-color: #52c852;
+  line-height: 1;
+  color: white;
+  font-size: 40rpx;
+  justify-content: right;
+}
+
+.rank-list {
+  display: flex;
+  flex-direction: column;
+  padding: 40rpx;
+  align-items: center;
+}
+
+.rank-item {
+  padding-bottom: 9px;
+  padding-top: 9px;
+  float: center;
+  align-items: center;
+}
+
+.num{
+  float: left;
+  width: 20px;
+  text-align: center;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  color: rgb(247, 14, 122);
+}
+
+.sub-info{
+  background-color: rgb(220, 241, 241);
+  width: 300px;
+  align-items: center;
+  box-sizing: border-box;
+  width: 690rpx;
+  height: 200rpx;
+  padding-left: 60rpx;
+ /* margin: 60rpx 0 120rpx;*/
+  border: 1px solid rgb(209, 203, 203);
+  border-radius: 50rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.user{
+  font-size: 50rpx;
+  color: #333;
+  padding-left: 10px;
+}
+
+.more{
+  /*background-color: rgb(220, 241, 241);*/
+  padding-left: 60px;
+}
+
+.c{
+  font-size: 40rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color:  #333;
+}
+
+.t{
+  font-size: 40rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #333;
+}
+
+.ct{
+  font-size: 40rpx;
+  white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #333;
+}

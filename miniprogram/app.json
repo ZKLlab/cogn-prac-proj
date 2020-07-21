@@ -3,14 +3,15 @@
     "pages/index/index",
     "pages/gameRoom/gameRoom",
     "pages/thesaurus/thesaurus",
-    "pages/ranklist/ranklist"
+    "pages/rankList/rankList"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#5555FF",
     "navigationBarTitleText": "你画我猜",
-    "navigationBarTextStyle": "white"
+    "navigationBarTextStyle": "white",
+    "enablePullDownRefresh": true
   },
   "plugins": {
     "WechatSI": {
