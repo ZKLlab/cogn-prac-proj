@@ -5,6 +5,8 @@
     "van-popup": "@vant/weapp/popup",
     "van-toast": "@vant/weapp/toast",
     "van-divider": "@vant/weapp/divider",
+    "van-icon": "@vant/weapp/icon",
+    "van-button": "@vant/weapp/button",
     "graffitiBoard": "/components/graffitiBoard/graffitiBoard",
     "chatArea": "/components/chatArea/chatArea",
     "mdIcon": "/components/mdIcon/mdIcon"

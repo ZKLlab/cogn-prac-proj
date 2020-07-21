@@ -1,20 +1,17 @@
+const app = getApp()
+
 const FATAL_REBUILD_TOLERANCE = 10
 const SETDATA_SCROLL_TO_BOTTOM = {
   scrollTop: 100000,
   scrollWithAnimation: true,
 }
+const COLLECTION = 'chat'
 
 Component({
   properties: {
-    envId: String,
-    collection: String,
-    groupId: String,
-    groupName: String,
+    roomId: String,
     userInfo: Object,
     onGetUserInfo: {
-      type: Function,
-    },
-    getOpenID: {
       type: Function,
     },
   },
@@ -27,66 +24,48 @@ Component({
     scrollToMessage: '',
     hasKeyboard: false,
   },
-
   methods: {
     onGetUserInfo(e) {
       this.properties.onGetUserInfo(e)
     },
-
-    getOpenID() {
-      return this.properties.getOpenID()
-    },
-
     mergeCommonCriteria(criteria) {
       return {
-        groupId: this.data.groupId,
+        roomId: this.data.roomId,
         ...criteria,
       }
     },
-
     async initRoom() {
       this.try(async () => {
-        await this.initOpenID()
+        await this.initOpenId()
 
-        const { envId, collection } = this.properties
-        const db = this.db = wx.cloud.database({
-          env: envId,
-        })
+        const db = this.db = wx.cloud.database()
         const _ = db.command
 
-        const { data: initList } = await db.collection(collection).where(this.mergeCommonCriteria()).orderBy('sendTimeTS', 'desc').get()
-
-        console.log('init query chats', initList)
-
+        const { data: initList } = await db.collection(COLLECTION).where(this.mergeCommonCriteria()).orderBy('sendTimeTS', 'desc').get()
         this.setData({
           chats: initList.reverse(),
           scrollTop: 10000,
         })
-
         this.initWatch(initList.length ? {
           sendTimeTS: _.gt(initList[initList.length - 1].sendTimeTS),
         } : {})
       }, '初始化失败')
     },
-
-    async initOpenID() {
+    async initOpenId() {
       return this.try(async () => {
-        const openId = await this.getOpenID()
-
+        const openId = await app.getOpenIdAsync()
         this.setData({
           openId,
         })
       }, '初始化 openId 失败')
     },
-
     async initWatch(criteria) {
       this.try(() => {
-        const { collection } = this.properties
         const db = this.db
         const _ = db.command
 
-        console.warn(`开始监听`, criteria)
-        this.messageListener = db.collection(collection).where(this.mergeCommonCriteria(criteria)).watch({
+        console.log(`开始监听`, criteria)
+        this.messageListener = db.collection(COLLECTION).where(this.mergeCommonCriteria(criteria)).watch({
           onChange: this.onRealtimeMessageSnapshot.bind(this),
           onError: e => {
             if (!this.inited || this.fatalRebuildCount >= FATAL_REBUILD_TOLERANCE) {
@@ -104,10 +83,8 @@ Component({
         })
       }, '初始化监听失败')
     },
-
     onRealtimeMessageSnapshot(snapshot) {
-      console.warn(`收到消息`, snapshot)
-
+      console.log(`收到消息`, snapshot)
       if (snapshot.type === 'init') {
         this.setData({
           chats: [
@@ -127,12 +104,7 @@ Component({
               hasOthersMessage = docChange.doc._openid !== this.data.openId
               const ind = chats.findIndex(chat => chat._id === docChange.doc._id)
               if (ind > -1) {
-                if (chats[ind].msgType === 'image' && chats[ind].tempFilePath) {
-                  chats.splice(ind, 1, {
-                    ...docChange.doc,
-                    tempFilePath: chats[ind].tempFilePath,
-                  })
-                } else chats.splice(ind, 1, docChange.doc)
+                chats.splice(ind, 1, docChange.doc)
               } else {
                 hasNewMessage = true
                 chats.push(docChange.doc)
@@ -149,28 +121,22 @@ Component({
         }
       }
     },
-
     async onConfirmSendText(e) {
       this.try(async () => {
         if (!e.detail.value) {
           return
         }
-
-        const { collection } = this.properties
         const db = this.db
-        const _ = db.command
-
         const doc = {
           _id: `${Math.random()}_${Date.now()}`,
-          groupId: this.data.groupId,
+          roomId: this.data.roomId,
           avatar: this.data.userInfo.avatarUrl,
           nickName: this.data.userInfo.nickName,
           msgType: 'text',
           textContent: e.detail.value,
           sendTime: new Date(),
-          sendTimeTS: Date.now(), // fallback
+          sendTimeTS: Date.now(),
         }
-
         this.setData({
           textInputValue: '',
           chats: [
@@ -183,46 +149,29 @@ Component({
           ],
         })
         this.scrollToBottom(true)
-
-        await db.collection(collection).add({
+        await db.collection(COLLECTION).add({
           data: doc,
         })
-
-        this.setData({
-          chats: this.data.chats.map(chat => {
-            if (chat._id === doc._id) {
-              return {
-                ...chat,
-                writeStatus: 'written',
-              }
-            } else return chat
-          }),
-        })
-      }, '发送文字失败')
+      })
     },
-
     scrollToBottom(force) {
       if (force) {
         console.log('force scroll to bottom')
         this.setData(SETDATA_SCROLL_TO_BOTTOM)
         return
       }
-
       this.createSelectorQuery().select('.chat-area').boundingClientRect(bodyRect => {
         this.createSelectorQuery().select('.chat-area').scrollOffset(scroll => {
           if (scroll.scrollTop + bodyRect.height * 3 > scroll.scrollHeight) {
-            console.log('should scroll to bottom')
             this.setData(SETDATA_SCROLL_TO_BOTTOM)
           }
         }).exec()
       }).exec()
     },
-
     async onScrollToUpper() {
       if (this.db && this.data.chats.length) {
-        const { collection } = this.properties
         const _ = this.db.command
-        const { data } = await this.db.collection(collection).where(this.mergeCommonCriteria({
+        const { data } = await this.db.collection(COLLECTION).where(this.mergeCommonCriteria({
           sendTimeTS: _.lt(this.data.chats[0].sendTimeTS),
         })).orderBy('sendTimeTS', 'desc').get()
         this.data.chats.unshift(...data.reverse())
@@ -233,7 +182,6 @@ Component({
         })
       }
     },
-
     async try(fn, title) {
       try {
         await fn()
@@ -241,7 +189,6 @@ Component({
         this.showError(title, e)
       }
     },
-
     showError(title, content, confirmText, confirmCallback) {
       console.error(title, content)
       wx.showModal({
@@ -255,7 +202,6 @@ Component({
       })
     },
   },
-
   ready() {
     global.chatroom = this
     this.initRoom()

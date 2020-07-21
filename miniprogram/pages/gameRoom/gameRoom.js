@@ -36,6 +36,15 @@ Page({
     pureDataPattern: /^_/,
   },
   data: {
+    roomId: null,
+    userType: null,
+    currentWord: null,
+    players: [],
+    started: false,
+    choosingWord: false,
+    answering: false,
+    joined: false,
+    // 画板数据
     drawingOpenId: '',
     myOpenId: null,
     tool: Object.values(tools)[0],
@@ -44,18 +53,14 @@ Page({
     width: Object.values(widths)[2],
     brushStylesPickerShown: false,
     brushStyleColumns: defaultBrushStyleColumns,
-    // 聊天室demo
-    avatarUrl: './user-unlogin.png',
-    userInfo: null,
-    logged: false,
-    takeSession: false,
-    requestResult: '',
-    chatRoomCollection: 'chatroom',
-    chatRoomGroupId: 'demo',
-    chatRoomGroupName: '聊天室',
+    // 聊天数据
     onGetUserInfo: () => null,
-    getOpenID: app.getOpenIdAsync,
+    content: '',
+    mHidden: true,
+    footerOffset: 0,
+    focus: false,
     // 以下：纯数据字段
+    _watcher: null,
     _penColor: '黑色',
     _toolWidth: { pen: '适中', eraser: '极粗' },
   },
@@ -102,6 +107,60 @@ Page({
       brushStylesPickerShown: false,
     })
   },
+  joinGameRoom() {
+    return new Promise(resolve => {
+      wx.getUserInfo({
+        success: async res => {
+          await wx.cloud.callFunction({
+            name: 'joinRoom',
+            data: {
+              userInfo: res.userInfo,
+              roomId: this.data.roomId,
+            },
+          })
+          resolve()
+        },
+      })
+    })
+  },
+  initRoomWatch() {
+    const db = wx.cloud.database()
+    this.data._watcher = db.collection('room')
+      .doc(this.data.roomId)
+      .watch({
+        onChange: async snapshot => {
+          if (snapshot.docs.length === 0) {
+            await wx.redirectTo({
+              url: '../index/index',
+            })
+          }
+          const room = snapshot.docs[0]
+          console.log(snapshot.docs)
+          console.log(snapshot.docChanges)
+          let currentWord = '你画我猜'
+          if (room.currentDrawingOpenId === this.data.myOpenId && room.answering) {
+            currentWord = room.currentWord
+          } else if (room.choosingWord) {
+            currentWord = '等待玩家选词'
+          }
+          this.setData({
+            drawingOpenId: room.currentDrawingOpenId,
+            currentWord,
+            joined: room.players.findIndex(player => player._openid === this.data.myOpenId) >= 0,
+            players: room.players,
+            started: room.started,
+            choosingWord: room.choosingWord,
+            answering: room.answering,
+          })
+        },
+        onError: () => {
+          wx.showToast({
+            title: '同步的时候发生了错误',
+          })
+        }
+      })
+  },
+  //// 事件
   handleClearAll() {
     wx.showModal({
       title: '提示',
@@ -127,14 +186,41 @@ Page({
   },
   handleRecognizeStart() {
     console.log(1)
-    siManager.start({ lang: 'zh_CN' })
+    this.setData({
+      mHidden: false,
+    })
+    siManager.start({
+      lang: 'zh_CN',
+    })
   },
   handleRecognizeStop() {
-    console.log(2)
+    this.setData({
+      mHidden: true,
+    })
     siManager.stop()
   },
+  handleContentConform(event) {
+    console.log(event.detail.value)
+    this.setData({
+      content: '',
+    })
+  },
+  handleKeyboardHeightChange(event) {
+    this.setData({
+      footerOffset: event.detail.height || 0,
+    })
+  },
+  handleJoinRoom(event) {
+    if (event.detail.userInfo) {
+      this.joinGameRoom()
+    }
+  },
+  //// 生命周期函数
   onLoad(query) {
-
+    this.setData({
+      roomId: query.id,
+      userType: query.type,
+    })
   },
   onUnload(options) {
 
@@ -143,10 +229,17 @@ Page({
     this.setData({
       myOpenId: await app.getOpenIdAsync(),
     })
+    this.initRoomWatch()
+    siManager.onRecognize = res => {
+      this.setData({
+        content: res.result,
+      })
+    }
     siManager.onStop = res => {
       console.log(res)
-      wx.setNavigationBarTitle({
-        title: res.result,
+      this.setData({
+        content: res.result,
+        focus: true,
       })
     }
     siManager.onError = res => {
@@ -167,7 +260,10 @@ Page({
 
   },
   onShareAppMessage() {
-
+    return {
+      title: '你画我猜：快来加入我的房间！',
+      path: `/pages/gameRoom/gameRoom?id=${this.data.roomId}&type=join`,
+    }
   },
   async handleDrawMyself() {
     this.setData({

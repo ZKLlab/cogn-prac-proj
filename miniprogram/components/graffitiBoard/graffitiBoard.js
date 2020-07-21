@@ -114,7 +114,7 @@ Component({
           roomId: this.properties.roomId,
         })
         .watch({
-          onChange: (snapshot) => {
+          onChange: snapshot => {
             console.log(JSON.stringify(snapshot.docs).length)
             console.log(snapshot.docs)
             if (!this.data.myTurn) {

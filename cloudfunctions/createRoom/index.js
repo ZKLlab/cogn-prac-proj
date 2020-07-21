@@ -6,7 +6,7 @@ cloud.init({
 
 const db = cloud.database()
 
-exports.main = async (event, context) => {
+exports.main = async (event) => {
   const wxContext = cloud.getWXContext()
 
   const room = {
@@ -22,8 +22,7 @@ exports.main = async (event, context) => {
     appearedWords: [],
     //// 游戏状态机
     currentDrawingOpenId: null,  // 当前轮到的玩家
-    currentWordSignature: null,  // 当前词的哈希签名
-    currentWordLength: null,  // 长度提示
+    currentWord: null,  // 当前词的哈希签名
     started: false,  // 正式游戏阶段
     choosingWord: false,  // 选词阶段
     answering: false,  // 猜词阶段
