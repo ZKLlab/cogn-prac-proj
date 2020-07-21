@@ -1,4 +1,3 @@
-// miniprogram/pages/rankList/rankList.js
 var page = 1;
 var pre_ranking = [1, 2, 3, 4, 5];
 Page({
@@ -6,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    ranking:[1, 2, 3, 4, 5],
+    ranking: [1, 2, 3, 4, 5],
     ranklist: []
   },
 
@@ -27,7 +26,7 @@ Page({
     page = 1;
     pre_ranking = [1, 2, 3, 4, 5];
     this.setData({
-      ranking:[1, 2, 3, 4, 5],
+      ranking: [1, 2, 3, 4, 5],
       ranklist: []
     })
     this.getRankList(1, false);
@@ -38,14 +37,14 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-    
+
   },
 
   /**
@@ -55,7 +54,7 @@ Page({
     page = 1;
     pre_ranking = [1, 2, 3, 4, 5];
     this.setData({
-      ranking:[1, 2, 3, 4, 5],
+      ranking: [1, 2, 3, 4, 5],
       ranklist: []
     })
   },
@@ -86,10 +85,10 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    
+
   },
 
-  getRankList: function(pagenum, flag){
+  getRankList: function (pagenum, flag) {
     wx.cloud.init({
       traceUser: true
     })
@@ -99,22 +98,22 @@ Page({
         pageid: pagenum
       },
       complete: res => {
-        if (res){
+        if (res) {
           this.setData({
             ranklist: res.result.data,
           })
         }
-        if (flag){
+        if (flag) {
           pre_ranking[0] += 5;
           pre_ranking[1] += 5;
           pre_ranking[2] += 5;
           pre_ranking[3] += 5;
           pre_ranking[4] += 5;
           this.setData({
-            ranking : pre_ranking
+            ranking: pre_ranking
           })
         }
       }
-    })    
+    })
   },
 })

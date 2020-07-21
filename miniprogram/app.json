@@ -10,8 +10,7 @@
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#5555FF",
     "navigationBarTitleText": "你画我猜",
-    "navigationBarTextStyle": "white",
-    "enablePullDownRefresh": true
+    "navigationBarTextStyle": "white"
   },
   "plugins": {
     "WechatSI": {
