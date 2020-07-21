@@ -1,2 +1,27 @@
-<!--miniprogram/pages/rankList/rankList.wxml-->
-<text>miniprogram/pages/rankList/rankList.wxml</text>
+<view class="title">
+  <text>排行榜</text>
+  </view>
+    <button open-type="share" class="share-buttom">一键分享</button>
+  <view class="container rank-list">
+</view>
+  <block bindtap="getRankList"  wx:if="ranklist.length > 0" wx:for="{{ranklist}}"  wx:for-item="usr" wx:key="*this">
+    <scroll-view class="rank-item">
+        <view class="info">
+          <view class="num">{{ranking[index]}}</view>
+          <view class="sub-info">
+            <view class="user">用户: {{usr.openid}}</view>
+            <view class="more">
+            <view class="c">总得分: {{usr.credit}}</view>
+            <view class="ct">平均每局得分: {{usr.credit_turn}}</view>
+            <view class="t">游玩局数: {{usr.turns}}</view>
+          </view>
+          </view>
+        </view>
+    </scroll-view>
+  </block>
+<view wx:if="{{ranklist.length === 0}}" class="container">
+    <text>没有数据</text>
+</view>
+<view wx:if="{{canIUse && rankLogs.length === 0}}" class="container">
+  <button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登录</button>
+</view>

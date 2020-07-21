@@ -63,6 +63,9 @@ Page({
     _watcher: null,
     _penColor: '黑色',
     _toolWidth: { pen: '适中', eraser: '极粗' },
+    // 输入框内容
+    content: '',
+    mHidden: true,
   },
   selectorWidthChange(e) {
     const value = this.data.selectorWidth[parseInt(e.detail.value)]
@@ -226,6 +229,7 @@ Page({
 
   },
   async onReady() {
+    const that = this;
     this.setData({
       myOpenId: await app.getOpenIdAsync(),
     })

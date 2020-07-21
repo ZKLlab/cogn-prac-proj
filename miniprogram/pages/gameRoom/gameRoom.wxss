@@ -27,7 +27,6 @@ page {
 
 /* 工具栏部分 */
 .toolbar {
-  flex: 0 0 auto;
   width: 100%;
   height: 70rpx;
   background: #E0E0FF;
@@ -35,7 +34,12 @@ page {
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  margin: 0 -1px -1px 0;
+  margin: 0 -1px 0 0;
+}
+
+.toolbar {
+  flex: 0 0 auto;
+  background: #E0E0FF;
 }
 
 .toolbar-item {
