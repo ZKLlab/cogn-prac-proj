@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "排行榜",
+  "navigationBarTitleText": "你画我猜",
   "enablePullDownRefresh": true,
   "backgroundTextStyle": "dark",
   "usingComponents": {}
