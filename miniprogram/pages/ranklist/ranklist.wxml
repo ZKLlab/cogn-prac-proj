@@ -1,19 +1,23 @@
-<view class="title">
-	<text>排行榜</text>
+<view class="your-ranking" wx:if="{{uranking != 0}}">
+	<text>你的排名：{{uranking}}</text>
+</view>
+<view class="your-ranking" wx:if="{{uranking == 0}}">
+	<text>你的排名：未上榜</text>
 </view>
 <button open-type="share" class="share-buttom">一键分享</button>
 <view class="container rank-list">
 </view>
-<block bindtap="getRankList" wx:if="ranklist.length > 0" wx:for="{{ranklist}}" wx:for-item="usr" wx:key="*this">
+<block bindtap="getRankList" wx:if="{{ranklist.length > 0}}" wx:for="{{ranklist}}" wx:for-item="usr" wx:key="*this">
 	<scroll-view class="rank-item">
 		<view class="info">
-			<view class="num">{{ranking[index]}}</view>
+			<view class="rank-num ">{{index+1}}</view>
 			<view class="sub-info">
-				<view class="user">用户: {{usr.openid}}</view>
-				<view class="more">
-					<view class="c">总得分: {{usr.credit}}</view>
-					<view class="ct">平均每局得分: {{usr.credit_turn}}</view>
-					<view class="t">游玩局数: {{usr.turns}}</view>
+				<view class="avatar">{{usr.avatarUrl}}</view>
+				<view class="user">{{usr.nickName}}</view>
+				<view class="rank-more">
+					<view class="rank-credit">总得分: {{usr.credit}}</view>
+					<view class="rank-creditTurn">平均每局得分: {{usr.creditTurn}}</view>
+					<view class="rank-turns">游玩局数: {{usr.turns}}</view>
 				</view>
 			</view>
 		</view>

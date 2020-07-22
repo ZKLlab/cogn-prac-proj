@@ -1,4 +1,4 @@
-.title {
+.your-ranking {
   display: flex;
   flex-direction: column;
   padding: 40rpx;
@@ -27,7 +27,7 @@
   align-items: center;
 }
 
-.num {
+.rank-num {
   float: left;
   width: 20px;
   text-align: center;
@@ -58,12 +58,12 @@
   padding-left: 10px;
 }
 
-.more {
+.rank-more {
   /*background-color: rgb(220, 241, 241);*/
   padding-left: 60px;
 }
 
-.c {
+.rank-credit {
   font-size: 40rpx;
   white-space: nowrap;
   overflow: hidden;
@@ -71,7 +71,7 @@
   color: #333;
 }
 
-.t {
+.rank-turns {
   font-size: 40rpx;
   white-space: nowrap;
   overflow: hidden;
@@ -79,7 +79,7 @@
   color: #333;
 }
 
-.ct {
+.rank-creditTurn {
   font-size: 40rpx;
   white-space: nowrap;
   overflow: hidden;
