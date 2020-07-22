@@ -27,7 +27,41 @@
   align-items: center;
 }
 
-.rank-num {
+.info-first{
+  float: center;
+}
+
+.info-second{
+  float: center;
+}
+
+.info-third{
+  float: center;
+}
+
+.info-others{
+  float: center;
+}
+
+.rank-num-first {
+  float: left;
+  width: 20px;
+  text-align: center;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  color: rgb(247, 14, 122);
+}
+
+.rank-num-second {
+  float: left;
+  width: 20px;
+  text-align: center;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  color: rgb(247, 14, 122);
+}
+
+.rank-num-third {
   float: left;
   width: 20px;
   text-align: center;

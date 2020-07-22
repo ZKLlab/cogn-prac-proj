@@ -9,8 +9,47 @@
 </view>
 <block bindtap="getRankList" wx:if="{{ranklist.length > 0}}" wx:for="{{ranklist}}" wx:for-item="usr" wx:key="*this">
 	<scroll-view class="rank-item">
-		<view class="info">
-			<view class="rank-num ">{{index+1}}</view>
+		<view class="info-first"  wx:if="{{index+1 == 1}}">
+			<view class="rank-num-first ">{{index+1}}</view>
+			<view class="sub-info">
+				<view class="avatar">{{usr.avatarUrl}}</view>
+				<view class="user">{{usr.nickName}}</view>
+				<view class="rank-more">
+					<view class="rank-credit">总得分: {{usr.credit}}</view>
+					<view class="rank-creditTurn">平均每局得分: {{usr.creditTurn}}</view>
+					<view class="rank-turns">游玩局数: {{usr.turns}}</view>
+				</view>
+			</view>
+		</view>
+
+		<view class="info-second"  wx:if="{{index+1 == 2}}">
+			<view class="rank-num-second ">{{index+1}}</view>
+			<view class="sub-info">
+				<view class="avatar">{{usr.avatarUrl}}</view>
+				<view class="user">{{usr.nickName}}</view>
+				<view class="rank-more">
+					<view class="rank-credit">总得分: {{usr.credit}}</view>
+					<view class="rank-creditTurn">平均每局得分: {{usr.creditTurn}}</view>
+					<view class="rank-turns">游玩局数: {{usr.turns}}</view>
+				</view>
+			</view>
+		</view>
+		
+		<view class="info-third" wx:if="{{index+1 == 3}}">
+			<view class="rank-num-second ">{{index+1}}</view>
+			<view class="sub-info">
+				<view class="avatar">{{usr.avatarUrl}}</view>
+				<view class="user">{{usr.nickName}}</view>
+				<view class="rank-more">
+					<view class="rank-credit">总得分: {{usr.credit}}</view>
+					<view class="rank-creditTurn">平均每局得分: {{usr.creditTurn}}</view>
+					<view class="rank-turns">游玩局数: {{usr.turns}}</view>
+				</view>
+			</view>
+		</view>
+
+		<view class="info-others" wx:if="{{index+1 != 1 && index+1 != 2 && index+1 != 3}}">
+			<view class="rank-num-others ">{{index+1}}</view>
 			<view class="sub-info">
 				<view class="avatar">{{usr.avatarUrl}}</view>
 				<view class="user">{{usr.nickName}}</view>
