@@ -49,7 +49,7 @@
 		</view>
 		<!-- 排行榜 -->
 		<view>
-			<navigator url="../rankList/rankList" open-type="navigate" class="grid-menu-item grid-menu-2-2">
+			<navigator url="../ranklist/ranklist" open-type="navigate" class="grid-menu-item grid-menu-2-2">
 				<view class="grid-menu__btn-icon">
 					<van-icon name="chart-trending-o" />
 				</view>

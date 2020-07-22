@@ -1,16 +1,55 @@
+.container{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  background: #f2e4f4;
+}
+
+.background{
+  height:100px;
+  width:400px;
+}
+
+.your-rank{
+  width:100%;
+  display:flex;
+  flex-direction:row;
+ 
+}
+
 .your-ranking {
+  width:250px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   padding: 40rpx;
   align-items: center;
+  background: #f2e4f4;
+}
+
+.emoji{
+  width:30px;
+  height:30px;
+  margin-right:10px;
 }
 
 .share-buttom {
+  margin-top:10px;
+  margin-left:30px;
   background-color: #52c852;
   line-height: 1;
+  height:40px;
+  width:80px;
   color: white;
   font-size: 40rpx;
   justify-content: right;
+}
+
+.ranklist-container{
+  background:white;
+  height:100%;
+  width:90%;
+  border: 1px solid rgb(209, 203, 203);
+  border-radius: 50rpx;
 }
 
 .rank-list {
@@ -21,100 +60,102 @@
 }
 
 .rank-item {
+  height:60px;
+  width:100%;
   padding-bottom: 9px;
-  padding-top: 9px;
   float: center;
   align-items: center;
+  display:flex;
+  flex-direction: row;
+  flex-wrap:nowrap;
+
 }
 
-.info-first{
+.info-others {
   float: center;
+  width:100%;
+  height:150rpx;
+  display:flex;
+  flex-direction: row;
+  flex-wrap:nowrap;
+  justify-content:flex-start;
 }
 
-.info-second{
-  float: center;
+/*分割线*/
+.divLine{
+  background: #E0E3DA;
+  width:100%;
+  height:5rpx;
+  justify-content:center;
 }
 
-.info-third{
-  float: center;
+/*排行*/
+.num-first{
+  width:40px;
+  height:40px;
 }
 
-.info-others{
-  float: center;
+.num-second{
+  padding-left:3px;
+  width:35px;
+  height:35px;
 }
 
-.rank-num-first {
-  float: left;
-  width: 20px;
-  text-align: center;
-  padding-top: 9px;
-  padding-bottom: 9px;
-  color: rgb(247, 14, 122);
+.num-third{
+  padding-left:6px;
+  width:30px;
+  height:30px;
 }
 
-.rank-num-second {
-  float: left;
-  width: 20px;
-  text-align: center;
-  padding-top: 9px;
-  padding-bottom: 9px;
-  color: rgb(247, 14, 122);
+.rank-num{
+  padding-left:25px;
+  font-size:50rpx;
 }
 
-.rank-num-third {
-  float: left;
-  width: 20px;
-  text-align: center;
-  padding-top: 9px;
-  padding-bottom: 9px;
-  color: rgb(247, 14, 122);
+.num{
+  width:70px;
+}
+
+.image{
+  padding-left:10px;
+  width:60px;
+}
+
+/*用户名*/
+.user-first .user-second .user-third .user{
+  font-size:40rpx;
+  margin-left:10px;
+  padding-left:25px;
+}
+.user-first{
+  font-weight:bolder;
+  color:#ee6767;
+}
+
+.user-second{
+  font-weight:bold;
+}
+
+.username{
+  width:100px;
 }
 
 .sub-info {
-  background-color: rgb(220, 241, 241);
-  width: 300px;
   align-items: center;
-  box-sizing: border-box;
-  width: 690rpx;
-  height: 200rpx;
-  padding-left: 60rpx;
-  /* margin: 60rpx 0 120rpx;*/
-  border: 1px solid rgb(209, 203, 203);
-  border-radius: 50rpx;
+  width: 100%;
+  height:150rpx;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  align-items: center;
 }
 
-.user {
-  font-size: 50rpx;
-  color: #333;
-  padding-left: 10px;
-}
+/*总得分*/
 
-.rank-more {
-  /*background-color: rgb(220, 241, 241);*/
-  padding-left: 60px;
-}
 
 .rank-credit {
-  font-size: 40rpx;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: #333;
-}
-
-.rank-turns {
-  font-size: 40rpx;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: #333;
-}
-
-.rank-creditTurn {
-  font-size: 40rpx;
+  margin-left:50px;
+  font-size: 45rpx;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
