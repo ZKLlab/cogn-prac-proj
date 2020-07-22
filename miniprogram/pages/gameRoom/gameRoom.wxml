@@ -40,6 +40,7 @@
 			<image class="player-avatar" src="{{item.avatar}}" />
 			<text class="player-name">{{ item.nickName }}</text>
 			<text class="player-score" wx:if="{{!item.answerRight}}">+ {{ item.score }} 分</text>
+			<text class="player-answer-right" wx:elif="{{drawingOpenId === item._openid}}">正在画</text>
 			<text class="player-answer-right" wx:else>回答正确!</text>
 		</button>
 		<button class="player-container" wx:if="{{!started && players.length > 0 && players.length < 6}}" open-type="share">
