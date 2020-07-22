@@ -1,1 +1,163 @@
-/* miniprogram/pages/rankList/rankList.wxss */
+.container{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  background: #f2e4f4;
+}
+
+.background{
+  height:100px;
+  width:400px;
+}
+
+.your-rank{
+  width:100%;
+  display:flex;
+  flex-direction:row;
+ 
+}
+
+.your-ranking {
+  width:250px;
+  display: flex;
+  flex-direction: row;
+  padding: 40rpx;
+  align-items: center;
+  background: #f2e4f4;
+}
+
+.emoji{
+  width:30px;
+  height:30px;
+  margin-right:10px;
+}
+
+.share-buttom {
+  margin-top:10px;
+  margin-left:30px;
+  background-color: #52c852;
+  line-height: 1;
+  height:40px;
+  width:80px;
+  color: white;
+  font-size: 40rpx;
+  justify-content: right;
+}
+
+.ranklist-container{
+  background:white;
+  height:100%;
+  width:90%;
+  border: 1px solid rgb(209, 203, 203);
+  border-radius: 50rpx;
+}
+
+.rank-list {
+  display: flex;
+  flex-direction: column;
+  padding: 40rpx;
+  align-items: center;
+}
+
+.rank-item {
+  height:60px;
+  width:100%;
+  padding-bottom: 9px;
+  float: center;
+  align-items: center;
+  display:flex;
+  flex-direction: row;
+  flex-wrap:nowrap;
+
+}
+
+.info-others {
+  float: center;
+  width:100%;
+  height:150rpx;
+  display:flex;
+  flex-direction: row;
+  flex-wrap:nowrap;
+  justify-content:flex-start;
+}
+
+/*分割线*/
+.divLine{
+  background: #E0E3DA;
+  width:100%;
+  height:5rpx;
+  justify-content:center;
+}
+
+/*排行*/
+.num-first{
+  width:40px;
+  height:40px;
+}
+
+.num-second{
+  padding-left:3px;
+  width:35px;
+  height:35px;
+}
+
+.num-third{
+  padding-left:6px;
+  width:30px;
+  height:30px;
+}
+
+.rank-num{
+  padding-left:25px;
+  font-size:50rpx;
+}
+
+.num{
+  width:70px;
+}
+
+.image{
+  padding-left:10px;
+  width:60px;
+}
+
+/*用户名*/
+.user-first .user-second .user-third .user{
+  font-size:40rpx;
+  margin-left:10px;
+  padding-left:25px;
+}
+.user-first{
+  font-weight:bolder;
+  color:#ee6767;
+}
+
+.user-second{
+  font-weight:bold;
+}
+
+.username{
+  width:100px;
+}
+
+.sub-info {
+  align-items: center;
+  width: 100%;
+  height:150rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+/*总得分*/
+
+
+.rank-credit {
+  margin-left:50px;
+  font-size: 45rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #333;
+}

@@ -10,23 +10,34 @@ page {
   align-items: center;
 }
 
+/* 房主操作区 */
+.actions-area {
+  flex: 0 0 600rpx;
+  width: 750rpx;
+  height: 600rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* 画板部分 */
 .graffiti-board {
   flex: 0 0 auto;
 }
 
 /* 工具栏部分 */
-.toolbar{
+.toolbar {
   width: 100%;
-  height: 60rpx;
+  height: 70rpx;
+  background: #E0E0FF;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  margin: 0 -1px -1px 0;
+  margin: 0 -1px 0 0;
 }
 
-.toolbar{
+.toolbar {
   flex: 0 0 auto;
   background: #E0E0FF;
 }
@@ -36,11 +47,10 @@ page {
 }
 
 .toolbar-item__button {
-  font-size: 25rpx;
-  line-height: 60rpx;
-  height: 60rpx;
+  font-size: 30rpx;
+  line-height: 70rpx;
+  height: 70rpx;
   border-right: 1px solid rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 0;
 }
 
@@ -62,46 +72,124 @@ page {
   transition: all 0.2s;
 }
 
+/* 玩家列表部分 */
+.players-list {
+  width: 750rpx;
+  height: 125rpx;
+  box-sizing: border-box;
+  flex: 0 0 125rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+}
+
+.player-container {
+  flex: 1;
+  padding: 0 20rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  border: 0;
+  background: transparent !important;
+}
+
+.player-avatar {
+  width: 60rpx;
+  height: 60rpx;
+  background: #ffffff;
+  color: #232323;
+  font-size: 30rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  flex: 0 0 fit-content;
+  box-sizing: border-box;
+}
+
+.player-name {
+  width: 120rpx;
+  text-overflow: ellipsis;
+  font-size: 20rpx;
+  flex: 0 0 fit-content;
+  white-space: nowrap;
+  overflow: hidden;
+  line-height: 1;
+  margin-top: 8rpx;
+}
+
+.player-score {
+  width: 120rpx;
+  font-weight: bold;
+  text-overflow: ellipsis;
+  color: #FF8F00;
+  font-size: 20rpx;
+  flex: 0 0 fit-content;
+  white-space: nowrap;
+  overflow: hidden;
+  line-height: 1;
+  margin-top: 2rpx;
+}
+
+.player-answer-right {
+  width: 120rpx;
+  font-weight: bold;
+  text-overflow: ellipsis;
+  color: #2E7D32;
+  font-size: 20rpx;
+  flex: 0 0 fit-content;
+  white-space: nowrap;
+  overflow: hidden;
+  line-height: 1;
+  margin-top: 2rpx;
+}
+
 /* 聊天部分 */
 .chat-area {
   height: 0;
   flex: 1 1 auto;
 }
 
-/*消息输入部分*/
-
+/* 消息输入部分 */
 .footer {
-  flex-basis: fit-content;
+  width: 750rpx;
+  flex: 0 0 fit-content;
   display: flex;
   flex-direction: row;
+  align-items: center;
   border-top: 1px solid #ddd;
-  font-size: 10rpx;
-  padding: 20rpx 30rpx;
+  font-size: 15px;
+  padding: 15rpx 30rpx 25rpx;
+  box-sizing: border-box;
   background: rgb(246, 246, 246);
 }
 
-.footer .message-sender {
+.footer__message-sender {
   flex: 1;
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
-.message-sender .text-input {
+.message-sender__text-input {
   flex: 1;
-  font-size: 16px;
+  font-size: 30rpx;
   border: 1px solid transparent;
-  border-radius: 5px;
-  padding: 3px 6px;
-  margin: 0 10px 0 5px;
+  border-radius: 10rpx;
+  padding: 10rpx 18rpx;
+  margin: 0 20rpx 0 10rpx;
   background: #fff;
 }
 
 .btn-send-record {
-  font-size:30rpx;
-  align-self: center;
+  font-size: 30rpx;
 }
 
-.recording-message{
-  width:60rpx;
-  height:60rpx;
+.recording-message {
+  width: 60rpx;
+  height: 60rpx;
 }

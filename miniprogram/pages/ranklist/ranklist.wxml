@@ -1,2 +1,83 @@
-<!--miniprogram/pages/rankList/rankList.wxml-->
-<text>miniprogram/pages/rankList/rankList.wxml</text>
+<view class = "container">
+	<!--背景图像-->
+	<image class="background" src="./background.png" mode="aspectFill"></image>
+	<view class = "your-rank">
+		<view class="your-ranking" wx:if="{{uranking != 0}}">
+			<image src="./happy.png" class = "emoji"></image>
+			<text>你的排名：{{uranking}}</text>
+		</view>
+		<view class="your-ranking" wx:if="{{uranking == 0}}">
+			<image src="./unhappy.png" class = "emoji"></image>
+			<text>你没有上榜喔~</text>
+		</view>
+		<button src= open-type="share" class="share-buttom">一键分享</button>
+	</view>
+
+	<!--排行榜-->	
+	<view class = "ranklist-container">
+		<block bindtap="getRankList" wx:if="{{ranklist.length > 0}}" wx:for="{{ranklist}}" wx:for-item="usr" wx:key="*this">
+				<scroll-view class="rank-item">
+					<!--第一名-->
+					<view class="info-others"  wx:if="{{index+1 == 1}}">
+						<view class="sub-info">
+							<view class = "image">
+								<image src='./first.png' class = 'num-first'></image>
+							</view>
+							<view class = "username">
+								<view class="user-first">{{usr.nickName}}</view>
+							</view>
+							<view class="rank-credit">{{usr.credit}}分</view>
+						</view>
+					</view>
+
+					<!--第二名-->
+					<view class="info-others"  wx:if="{{index+1 == 2}}">
+
+						<view class="sub-info">
+							<view class = "image">
+								<image src='./second.png' class = 'num-second'></image>
+							</view>
+							<view class="username">
+								<view class="user-second">{{usr.nickName}}</view>
+							</view>
+							<view class="rank-credit">{{usr.credit}}分</view>											
+						</view>
+					</view>
+					
+					<!--第三名-->
+					<view class="info-others" wx:if="{{index+1 == 3}}">
+
+						<view class="sub-info">
+							<view class = "image">
+								<image src='./third.png' class = 'num-third'></image>
+							</view>
+							<view class = "username">
+								<view class="user-third">{{usr.nickName}}</view>
+							</view>
+							<view class="rank-credit">{{usr.credit}}分</view>											
+						</view>
+					</view>
+
+				<!--其他名次-->
+				<view class="info-others" wx:if="{{index+1 != 1 && index+1 != 2 && index+1 != 3}}">
+
+					<view class="sub-info">
+						<view class = "num">
+							<view class="rank-num">{{index+1}}</view>
+						</view>
+						<view class = "username">
+							<view class="user">{{usr.nickName}}</view>
+						</view>
+						<view class="rank-credit">{{usr.credit}}分</view>
+					</view>
+				</view>
+			</scroll-view>
+		</block>
+	</view>
+	<view wx:if="{{ranklist.length === 0}}" class="container">
+		<text>没有数据</text>
+	</view>
+	<view wx:if="{{canIUse && rankLogs.length === 0}}" class="container">
+		<button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登录</button>
+	</view>
+</view>

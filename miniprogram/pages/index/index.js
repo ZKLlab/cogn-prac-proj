@@ -6,21 +6,25 @@ Page({
     userInfo: {},
     logged: false,
   },
-  async onLoad() {
+  onLoad() {
     wx.getSetting({
       success: res => {
         if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
           wx.getUserInfo({
             success: res => {
               this.setData({
                 avatarUrl: res.userInfo.avatarUrl,
-                userInfo: res.userInfo
+                userInfo: res.userInfo,
               })
-            }
+            },
           })
         }
-      }
+      },
+    })
+  },
+  onShow() {
+    wx.setNavigationBarTitle({
+      title: '你画我猜',
     })
   },
   processLoginCallback(event) {
@@ -46,14 +50,14 @@ Page({
       await wx.showLoading({
         title: '请稍等',
       })
-      await wx.cloud.callFunction({
+      const res = await wx.cloud.callFunction({
         name: 'createRoom',
         data: {
           userInfo: this.data.userInfo,
         }
       })
       await wx.redirectTo({
-        url: '../gameRoom/gameRoom',
+        url: `../gameRoom/gameRoom?id=${res.result.data._id}&type=create`,
       })
       await wx.hideLoading()
     }

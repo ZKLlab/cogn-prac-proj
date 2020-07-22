@@ -1,12 +1,23 @@
 <view class="container">
+	<!-- 操作区 -->
+	<view class="actions-area" wx:if="{{!started}}">
+		<van-button type="info" disabled="{{players.length <= 1}}" round wx:if="{{myOpenId === players[0]._openid}}" bind:click="startGame">开始游戏</van-button>
+		<van-button type="primary" round wx:elif="{{players.length > 0 && !joined}}" disabled="{{players.length >= 6}}" open-type="getUserInfo" bindgetuserinfo="handleJoinRoom">加入房间</van-button>
+		<van-button type="info" size="small" disabled round loading loading-type="spinner" loading-text="请稍等" wx:elif="{{players.length === 0}}" />
+		<van-button type="info" size="small" disabled plain round wx:else>等待房主开始游戏</van-button>
+	</view>
+	<!-- 选词区 -->
+	<view class="actions-area" wx:if="{{started && drawingOpenId === myOpenId && choosingWord}}">
+		<van-button plain type="info" wx:for="{{currentSelectableWord}}" style="margin: 20rpx" wx:key="index" bind:click="handleChooseWord" data-word="{{item}}">{{ item }}</van-button>
+	</view>
 	<!-- 绘画板 -->
-	<graffitiBoard id="graffitiBoard" class="graffiti-board" room-id="15d399db5f119c120014359057c9985e" drawing-open-id="{{drawingOpenId}}" color="{{color}}" width="{{width}}" />
+	<graffitiBoard id="graffitiBoard" class="graffiti-board" room-id="{{roomId}}" drawing-open-id="{{drawingOpenId}}" color="{{color}}" width="{{width}}" wx:if="{{started && (drawingOpenId !== myOpenId || !choosingWord)}}" />
 	<!-- 工具栏 -->
-	<view class="toolbar" wx:if="{{drawingOpenId === myOpenId}}">
+	<view class="toolbar" wx:if="{{started && drawingOpenId === myOpenId && answering}}">
 		<view class="toolbar-item" style="flex: 1.5">
 			<button class="toolbar-item__button" bindtap="showBrushStylesPicker">
-				<mdIcon type="mdiBrush" color="{{tool === 'pen' ? color : 'rgba(0, 0, 0, 0.3)'}}" size="35rpx" />
-				<mdIcon type="mdiEraser" color="{{tool === 'eraser' ? '#232323' : 'rgba(0, 0, 0, 0.3)'}}" size="35rpx" />
+				<mdIcon type="mdiBrush" color="{{tool === 'pen' ? color : 'rgba(0, 0, 0, 0.3)'}}" size="40rpx" />
+				<mdIcon type="mdiEraser" color="{{tool === 'eraser' ? '#232323' : 'rgba(0, 0, 0, 0.3)'}}" size="40rpx" />
 				<text class="toolbar-item__button-text">笔触设置</text>
 			</button>
 		</view>
@@ -23,27 +34,35 @@
 			</button>
 		</view>
 	</view>
-	<!-- 测试工具栏 -->
-	<view class="toolbar">
-		<view class="toolbar-item" wx:if="{{drawingOpenId !== myOpenId}}">
-			<button class="toolbar-item__button" bindtap="handleDrawMyself">自己画 (测试)</button>
-		</view>
-		<view class="toolbar-item" wx:if="{{drawingOpenId === myOpenId}}">
-			<button class="toolbar-item__button" bindtap="handleWatch">看别人画 (测试)</button>
-		</view>
+	<!-- 玩家头像区域 -->
+	<view class="players-list">
+		<button class="player-container" wx:for="{{players}}" wx:key="_openid">
+			<image class="player-avatar" src="{{item.avatar}}" />
+			<text class="player-name">{{ item.nickName }}</text>
+			<text class="player-score" wx:if="{{!item.answerRight}}">+ {{ item.score }} 分</text>
+			<text class="player-answer-right" wx:elif="{{drawingOpenId === item._openid}}">正在画</text>
+			<text class="player-answer-right" wx:else>回答正确!</text>
+		</button>
+		<button class="player-container" wx:if="{{!started && players.length > 0 && players.length < 6}}" open-type="share">
+			<view class="player-avatar" style="border: 1px solid #ebedf0">
+				<van-icon name="plus" />
+			</view>
+			<text class="player-name">邀请朋友</text>
+		</button>
 	</view>
 	<!-- 聊天区域 -->
-	<chatArea class="chat-area" envId="{{chatRoomEnvId}}" collection="{{chatRoomCollection}}" groupId="{{chatRoomGroupId}}" groupName="{{chatRoomGroupName}}" userInfo="{{userInfo}}" onGetUserInfo="{{onGetUserInfo}}" getOpenID="{{getOpenID}}" />
+	<chatArea class="chat-area" roomId="{{roomId}}" onGetUserInfo="{{onGetUserInfo}}" />
 	<!-- 消息输入功能 -->
-	<view class="footer">
-		<view class="message-sender" >
-			<input class="text-input" type="text" confirm-type="send" bindinput = "contentInput" cusor-spacing="20" value="{{content}}"></input>
-			<image src = "./recording.png" class= "recording-message" hidden = "{{mHidden}}"></image>
+	<view class="footer" style="margin-bottom: {{footerOffset}}px" wx:if="{{joined}}">
+		<view class="footer__message-sender">
+			<input id="messageSenderInput" class="message-sender__text-input" focus="{{focus}}" type="text" confirm-type="send" bindconfirm="handleContentConform" bindkeyboardheightchange="handleKeyboardHeightChange" bindfocus="handleKeyboardHeightChange" bindblur="handleKeyboardHeightChange" adjust-position="{{false}}" cursor-spacing="20" placeholder="在此聊天或输入答案" placeholder-style="opacity: 0.5" value="{{content}}" />
+			<image src="./recording.png" class="recording-message" hidden="{{mHidden}}"></image>
 			<button class="btn-send-record" catchtouchstart="handleRecognizeStart" catchtouchend="handleRecognizeStop">长按说话</button>
-		</view>	
+		</view>
 	</view>
 </view>
 
+<!-- 笔触选择弹出框 -->
 <van-popup show="{{brushStylesPickerShown}}" position="bottom" bind:close="closeBrushStylesPicker">
 	<view class="brush-preview-wrapper">
 		<view class="brush-preview" style="width: {{width}}rpx; height: {{width}}rpx; background: {{color}}; color: {{previewBorderColor}}"></view>

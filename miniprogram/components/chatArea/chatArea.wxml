@@ -11,9 +11,3 @@
 	</view>
 	<view style="height: 50rpx"></view>
 </scroll-view>
-<!-- 消息发送区域 应放在gameRoom页面中 -->
-<!-- <view class="footer">
-		<view class="message-sender" wx:if="{{userInfo}}">
-			<input class="text-input" type="text" confirm-type="send" bindconfirm="onConfirmSendText" cursor-spacing="20" value="{{textInputValue}}"></input>
-			<<image src="./photo.png" class="btn-send-image" mode="scaleToFill" bindtap="onChooseImage"></image>
-		</view> -->
