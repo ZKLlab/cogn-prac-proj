@@ -1,11 +1,12 @@
-var page = 1;
-var pre_ranking = [1, 2, 3, 4, 5];
+//var page = 1;
+//var pre_ranking = [1, 2, 3, 4, 5];
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    ranking: [1, 2, 3, 4, 5],
+    uranking: 0,
+    //ranking: [1, 2, 3, 4, 5],
     ranklist: []
   },
 
@@ -13,24 +14,36 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (element) {
-    this.onReady();
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: async function () {
     wx.showLoading({
       title: '玩命加载中',
     })
-    page = 1;
-    pre_ranking = [1, 2, 3, 4, 5];
+    //page = 1,
+    //pre_ranking = [1, 2, 3, 4, 5],
     this.setData({
-      ranking: [1, 2, 3, 4, 5],
+      //ranking: [1, 2, 3, 4, 5],
       ranklist: []
     })
-    this.getRankList(1, false);
-    wx.hideLoading();
+    this.getRankList(1, false)
+    wx.cloud.callFunction({
+      name: 'getCurrentRanking',
+      data: {
+        ranklist: this.data.ranklist
+      },
+      complete: res => {
+        if (res) {
+          this.setData({
+            uranking: res,
+          })
+        }
+      }
+    })
+    wx.hideLoading()
   },
 
   /**
@@ -51,10 +64,10 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    page = 1;
-    pre_ranking = [1, 2, 3, 4, 5];
+    //page = 1,
+   // pre_ranking = [1, 2, 3, 4, 5],
     this.setData({
-      ranking: [1, 2, 3, 4, 5],
+      //ranking: [1, 2, 3, 4, 5],
       ranklist: []
     })
   },
@@ -71,15 +84,15 @@ Page({
 
   /**
    * 页面上拉触底事件的处理函数
-   */
+   *//*
   onReachBottom: function () {
     wx.showLoading({
       title: '玩命加载中',
     })
-    page++;
-    this.getRankList(page, true);
+    page++,
+    this.getRankList(page, true),
     wx.hideLoading();
-  },
+  },*/
 
   /**
    * 用户点击右上角分享
@@ -93,7 +106,7 @@ Page({
       traceUser: true
     })
     wx.cloud.callFunction({
-      name: 'get',
+      name: 'getRankListResult',
       data: {
         pageid: pagenum
       },
@@ -103,16 +116,19 @@ Page({
             ranklist: res.result.data,
           })
         }
-        if (flag) {
-          pre_ranking[0] += 5;
-          pre_ranking[1] += 5;
-          pre_ranking[2] += 5;
-          pre_ranking[3] += 5;
-          pre_ranking[4] += 5;
+
+        
+
+        /*if (flag) {
+          pre_ranking[0] += 5,
+          pre_ranking[1] += 5,
+          pre_ranking[2] += 5,
+          pre_ranking[3] += 5,
+          pre_ranking[4] += 5,
           this.setData({
             ranking: pre_ranking
           })
-        }
+        }*/
       }
     })
   },
