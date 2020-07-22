@@ -5,7 +5,9 @@ cloud.init()
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  const flag = false;
+  const wxContext = cloud.getWXContext()
+  const { userId } = event,
+  const flag = false,
   const db = cloud.database(),
   const _ = db.command,
   try {
@@ -22,16 +24,16 @@ exports.main = async (event, context) => {
     if (flag){
       return await db.collection('users').add({
           data: {
-            _id: event.openid,
-            avatarUrl: event.avatarUrl,
-            nickName: event.nickName,
+            _id: wxContext.OPENID,
+            avatarUrl: event.userInfo.avatarUrl,
+            nickName: event.userInfo.nickNam,
             credit: event.to_credit,
             turns: 1,
             creditTurn: event.to_credit
           }
         })
     } else{
-      return await db.collection("users").doc(event.openid)
+      return await db.collection("users").doc(event)
         .update({
           data: {
             credit: _.inc(event.to_credit),

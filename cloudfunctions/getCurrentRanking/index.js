@@ -7,8 +7,8 @@ cloud.init()
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   try{
-    for (const index in event.ranklist.data){
-      if (event.ranklist.data[index].openid == event.openid)
+    for (var index in exent.ranklist.data){
+      if (this.data.ranklist.data[index]._id == wxContext.OPENID)
         return index+1
     }
     return 0
