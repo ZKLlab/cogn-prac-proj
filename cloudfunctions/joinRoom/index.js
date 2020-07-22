@@ -11,18 +11,20 @@ const db = cloud.database()
 exports.main = async (event) => {
   const wxContext = cloud.getWXContext()
   const { roomId } = event;
-  const { data } = db.collection('room').doc(roomId).get()
+  const { data } = await db.collection('room').doc(roomId).get()
   if (data.players.length < MAX_PLAYERS
     && data.players.findIndex(player => player._openid === wxContext.OPENID) < 0
     && !data.started) {
-    db.collection('room').doc(roomId).update({
-      players: data.players.concat([{
-        _openid: wxContext.OPENID,
-        nickName: event.userInfo.nickName,
-        avatar: event.userInfo.avatarUrl,
-        score: 0,
-        answerRight: false,
-      }]),
+    await db.collection('room').doc(roomId).update({
+      data: {
+        players: data.players.concat([{
+          _openid: wxContext.OPENID,
+          nickName: event.userInfo.nickName,
+          avatar: event.userInfo.avatarUrl,
+          score: 0,
+          answerRight: false,
+        }]),
+      },
     })
   }
   return {

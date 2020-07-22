@@ -37,7 +37,6 @@ Page({
   },
   data: {
     roomId: null,
-    userType: null,
     currentWord: null,
     players: [],
     started: false,
@@ -222,14 +221,12 @@ Page({
   onLoad(query) {
     this.setData({
       roomId: query.id,
-      userType: query.type,
     })
   },
   onUnload(options) {
 
   },
   async onReady() {
-    const that = this;
     this.setData({
       myOpenId: await app.getOpenIdAsync(),
     })

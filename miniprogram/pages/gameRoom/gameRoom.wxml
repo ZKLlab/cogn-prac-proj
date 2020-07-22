@@ -3,7 +3,7 @@
 	<view class="actions-area" wx:if="{{!started}}">
 		<van-button type="info" disabled="{{players.length <= 1}}" round wx:if="{{userType === 'create' && myOpenId === players[0]._openid}}">开始游戏</van-button>
 		<van-button type="primary" round wx:elif="{{players.length > 0 && userType === 'join' && !joined}}" open-type="getUserInfo" bindgetuserinfo="handleJoinRoom">加入房间</van-button>
-		<van-button type="info" size="small" disabled round loading loading-type="spinner" loading-text="请稍等" wx:elif="userType === 'create'" />
+		<van-button type="info" size="small" disabled round loading loading-type="spinner" loading-text="请稍等" wx:elif="players.length === 0" />
 		<van-button type="info" size="small" disabled plain round wx:else>等待房主开始游戏</van-button>
 	</view>
 	<!-- 绘画板 -->
