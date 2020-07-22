@@ -7,9 +7,6 @@ Page({
     logged: false,
   },
   onLoad() {
-    wx.setNavigationBarTitle({
-      title: '你画我猜',
-    })
     wx.getSetting({
       success: res => {
         if (res.authSetting['scope.userInfo']) {
@@ -23,6 +20,11 @@ Page({
           })
         }
       },
+    })
+  },
+  onShow() {
+    wx.setNavigationBarTitle({
+      title: '你画我猜',
     })
   },
   processLoginCallback(event) {

@@ -75,9 +75,9 @@ page {
 /* 玩家列表部分 */
 .players-list {
   width: 750rpx;
-  height: 115rpx;
+  height: 125rpx;
   box-sizing: border-box;
-  flex: 0 0 115rpx;
+  flex: 0 0 125rpx;
   display: flex;
   flex-direction: row;
   align-items: center;

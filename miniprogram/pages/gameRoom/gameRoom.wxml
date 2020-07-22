@@ -2,7 +2,7 @@
 	<!-- 操作区 -->
 	<view class="actions-area" wx:if="{{!started}}">
 		<van-button type="info" disabled="{{players.length <= 1}}" round wx:if="{{myOpenId === players[0]._openid}}" bind:click="startGame">开始游戏</van-button>
-		<van-button type="primary" round wx:elif="{{players.length > 0 && userType === 'join' && !joined}}" open-type="getUserInfo" bindgetuserinfo="handleJoinRoom">加入房间</van-button>
+		<van-button type="primary" round wx:elif="{{players.length > 0 && !joined}}" disabled="{{players.length >= 6}}" open-type="getUserInfo" bindgetuserinfo="handleJoinRoom">加入房间</van-button>
 		<van-button type="info" size="small" disabled round loading loading-type="spinner" loading-text="请稍等" wx:elif="{{players.length === 0}}" />
 		<van-button type="info" size="small" disabled plain round wx:else>等待房主开始游戏</van-button>
 	</view>
@@ -11,7 +11,7 @@
 		<van-button plain type="info" wx:for="{{currentSelectableWord}}" style="margin: 20rpx" wx:key="index" bind:click="handleChooseWord" data-word="{{item}}">{{ item }}</van-button>
 	</view>
 	<!-- 绘画板 -->
-	<graffitiBoard id="graffitiBoard" class="graffiti-board" room-id="{{roomId}}" drawing-open-id="{{drawingOpenId}}" color="{{color}}" width="{{width}}" wx:if="{{started && (drawingOpenId !== myOpenId || answering)}}" />
+	<graffitiBoard id="graffitiBoard" class="graffiti-board" room-id="{{roomId}}" drawing-open-id="{{drawingOpenId}}" color="{{color}}" width="{{width}}" wx:if="{{started && (drawingOpenId !== myOpenId || !choosingWord)}}" />
 	<!-- 工具栏 -->
 	<view class="toolbar" wx:if="{{started && drawingOpenId === myOpenId && answering}}">
 		<view class="toolbar-item" style="flex: 1.5">
@@ -52,7 +52,7 @@
 	<!-- 聊天区域 -->
 	<chatArea class="chat-area" roomId="{{roomId}}" onGetUserInfo="{{onGetUserInfo}}" />
 	<!-- 消息输入功能 -->
-	<view class="footer" style="margin-bottom: {{footerOffset}}px">
+	<view class="footer" style="margin-bottom: {{footerOffset}}px" wx:if="{{joined}}">
 		<view class="footer__message-sender">
 			<input id="messageSenderInput" class="message-sender__text-input" focus="{{focus}}" type="text" confirm-type="send" bindconfirm="handleContentConform" bindkeyboardheightchange="handleKeyboardHeightChange" bindfocus="handleKeyboardHeightChange" bindblur="handleKeyboardHeightChange" adjust-position="{{false}}" cursor-spacing="20" placeholder="在此聊天或输入答案" placeholder-style="opacity: 0.5" value="{{content}}" />
 			<image src="./recording.png" class="recording-message" hidden="{{mHidden}}"></image>
@@ -60,6 +60,7 @@
 		</view>
 	</view>
 </view>
+
 <!-- 笔触选择弹出框 -->
 <van-popup show="{{brushStylesPickerShown}}" position="bottom" bind:close="closeBrushStylesPicker">
 	<view class="brush-preview-wrapper">
