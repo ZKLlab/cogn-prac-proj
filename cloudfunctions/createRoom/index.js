@@ -1,5 +1,9 @@
 const cloud = require('wx-server-sdk')
 
+const TIMEOUT = {
+  SETUP_ROOM: 10 * 60 * 1000,  // 组建房间：10分钟
+}
+
 cloud.init({
   env: cloud.DYNAMIC_CURRENT_ENV,
 })
@@ -22,11 +26,13 @@ exports.main = async (event) => {
     appearedWords: [],
     //// 游戏状态机
     currentDrawingOpenId: null,  // 当前轮到的玩家
-    currentWord: null,  // 当前词的哈希签名
+    currentWord: null,  // 当前词
+    currentSelectableWord: null,  // 当前可选词
     started: false,  // 正式游戏阶段
     choosingWord: false,  // 选词阶段
     answering: false,  // 猜词阶段
     round: 0,  // 轮次：0或1
+    timeoutTs: Date.now() + TIMEOUT.SETUP_ROOM,  // 时序管理：超时时间戳，组建房间限时10分钟
   }
 
   const data = await db.collection('room')

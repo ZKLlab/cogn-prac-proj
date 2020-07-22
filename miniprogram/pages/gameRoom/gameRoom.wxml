@@ -1,15 +1,19 @@
 <view class="container">
-	<!-- 房主操作区 -->
+	<!-- 操作区 -->
 	<view class="actions-area" wx:if="{{!started}}">
-		<van-button type="info" disabled="{{players.length <= 1}}" round wx:if="{{userType === 'create' && myOpenId === players[0]._openid}}">开始游戏</van-button>
+		<van-button type="info" disabled="{{players.length <= 1}}" round wx:if="{{myOpenId === players[0]._openid}}" bind:click="startGame">开始游戏</van-button>
 		<van-button type="primary" round wx:elif="{{players.length > 0 && userType === 'join' && !joined}}" open-type="getUserInfo" bindgetuserinfo="handleJoinRoom">加入房间</van-button>
-		<van-button type="info" size="small" disabled round loading loading-type="spinner" loading-text="请稍等" wx:elif="players.length === 0" />
+		<van-button type="info" size="small" disabled round loading loading-type="spinner" loading-text="请稍等" wx:elif="{{players.length === 0}}" />
 		<van-button type="info" size="small" disabled plain round wx:else>等待房主开始游戏</van-button>
 	</view>
+	<!-- 选词区 -->
+	<view class="actions-area" wx:if="{{started && drawingOpenId === myOpenId && choosingWord}}">
+		<van-button plain type="info" wx:for="{{currentSelectableWord}}" style="margin: 20rpx" wx:key="index" bind:click="handleChooseWord" data-word="{{item}}">{{ item }}</van-button>
+	</view>
 	<!-- 绘画板 -->
-	<graffitiBoard id="graffitiBoard" class="graffiti-board" room-id="{{roomId}}" drawing-open-id="{{drawingOpenId}}" color="{{color}}" width="{{width}}" wx:if="{{started}}" />
+	<graffitiBoard id="graffitiBoard" class="graffiti-board" room-id="{{roomId}}" drawing-open-id="{{drawingOpenId}}" color="{{color}}" width="{{width}}" wx:if="{{started && (drawingOpenId !== myOpenId || answering)}}" />
 	<!-- 工具栏 -->
-	<view class="toolbar" wx:if="{{drawingOpenId === myOpenId}}">
+	<view class="toolbar" wx:if="{{started && drawingOpenId === myOpenId && answering}}">
 		<view class="toolbar-item" style="flex: 1.5">
 			<button class="toolbar-item__button" bindtap="showBrushStylesPicker">
 				<mdIcon type="mdiBrush" color="{{tool === 'pen' ? color : 'rgba(0, 0, 0, 0.3)'}}" size="40rpx" />
@@ -30,22 +34,15 @@
 			</button>
 		</view>
 	</view>
-	<!-- 测试工具栏 -->
-	<!-- <view class="toolbar">
-		<view class="toolbar-item" wx:if="{{drawingOpenId !== myOpenId}}">
-			<button class="toolbar-item__button" bindtap="handleDrawMyself">自己画 (测试)</button>
-		</view>
-		<view class="toolbar-item" wx:if="{{drawingOpenId === myOpenId}}">
-			<button class="toolbar-item__button" bindtap="handleWatch">看别人画 (测试)</button>
-		</view>
-	</view> -->
 	<!-- 玩家头像区域 -->
 	<view class="players-list">
 		<button class="player-container" wx:for="{{players}}" wx:key="_openid">
 			<image class="player-avatar" src="{{item.avatar}}" />
 			<text class="player-name">{{ item.nickName }}</text>
+			<text class="player-score" wx:if="{{!item.answerRight}}">+ {{ item.score }} 分</text>
+			<text class="player-answer-right" wx:else>回答正确!</text>
 		</button>
-		<button class="player-container" wx:if="{{players.length > 0 && players.length < 6}}" open-type="share">
+		<button class="player-container" wx:if="{{!started && players.length > 0 && players.length < 6}}" open-type="share">
 			<view class="player-avatar" style="border: 1px solid #ebedf0">
 				<van-icon name="plus" />
 			</view>

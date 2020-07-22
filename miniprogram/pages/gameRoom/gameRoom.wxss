@@ -112,12 +112,40 @@ page {
 }
 
 .player-name {
+  width: 120rpx;
+  text-overflow: ellipsis;
   font-size: 20rpx;
   flex: 0 0 fit-content;
   white-space: nowrap;
   overflow: hidden;
   line-height: 1;
   margin-top: 8rpx;
+}
+
+.player-score {
+  width: 120rpx;
+  font-weight: bold;
+  text-overflow: ellipsis;
+  color: #FF8F00;
+  font-size: 20rpx;
+  flex: 0 0 fit-content;
+  white-space: nowrap;
+  overflow: hidden;
+  line-height: 1;
+  margin-top: 2rpx;
+}
+
+.player-answer-right {
+  width: 120rpx;
+  font-weight: bold;
+  text-overflow: ellipsis;
+  color: #2E7D32;
+  font-size: 20rpx;
+  flex: 0 0 fit-content;
+  white-space: nowrap;
+  overflow: hidden;
+  line-height: 1;
+  margin-top: 2rpx;
 }
 
 /* 聊天部分 */
