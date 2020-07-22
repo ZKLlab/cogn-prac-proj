@@ -1,0 +1,16 @@
+<!--miniprogram/pages/thesaurus/addKeyword.wxml-->
+<view class="container">
+	<!-- 背景图像 -->
+	<image class="background" src="./background.png" mode="aspectFill"></image>
+</view>
+
+
+<form bindsubmit="btnSub">
+  <input name="key" placeholder="请输入需要添加的词条" class="keywordInput"></input>
+  <input name="cue" placeholder="请输入对应的词条提示" class="keywordInput"></input>
+  <view class="option-menu">
+  <button type="primary" form-type="submit" class="grid-menu">提交</button>
+  <button type="default" form-type="reset">取消</button>
+  </view>
+</form>
+

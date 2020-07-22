@@ -1,16 +1,10 @@
-/* miniprogram/pages/thesaurus/thesaurus.wxss */
+/* miniprogram/pages/thesaurus/addKeyword.wxss */
 page {
   background: #dddeef;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   margin: 60rpx 0 120rpx;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 .background {
@@ -22,16 +16,17 @@ page {
   z-index: -1;
 }
 
-.userinfo {
-  box-sizing: border-box;
-  width: 670rpx;
-  height: 230rpx;
-  padding-left: 60rpx;
-  border: 1px solid rgb(209, 203, 203);
-  border-radius: 50rpx;
+.keywordInput{
+  height: 100rpx;
+  width: 600rpx;
+  border-radius: 15rpx;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  padding-left: 50rpx;
+  margin: 50rpx 50rpx;
+  border: 1px solid rgb(209, 203, 203);
+  background-color: aliceblue;
+  align-items: center;
 }
 
 .option-menu {
