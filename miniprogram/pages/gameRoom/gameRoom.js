@@ -199,7 +199,9 @@ Page({
       }
     })
   },
-
+  handleUndoStroke() {
+    this.selectComponent('#graffitiBoard').undoStroke()
+  },
   handleBrushStylesChanged(event) {
     const { picker, value, index } = event.detail;
     switch (index) {
@@ -227,12 +229,6 @@ Page({
       color: colors[values[1]],
       previewBorderColor: colors[values[1]] === '#FFFFFF' ? '#CCCCCC' : colors[values[1]],
       width: widths[values[2]],
-    })
-  },
-  handleUndo() {
-    wx.showToast({
-      title: '开发中',
-      icon: 'none',
     })
   },
   handleRecognizeStart() {
