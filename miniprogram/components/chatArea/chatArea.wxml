@@ -1,13 +1,21 @@
 <scroll-view class="chat-area" scroll-y scroll-with-animation="{{scrollWithAnimation}}" scroll-top="{{scrollTop}}" scroll-into-view="{{scrollToMessage}}" bindscrolltoupper="onScrollToUpper" enable-flex>
+	<view style="height: 20rpx"></view>
 	<view wx:for="{{chats}}" wx:key="_id" id="item-{{index}}" class="message{{openId == item._openid ? ' message__self' : ''}}">
-		<image class="message__avatar" src="{{item.avatar}}" mode="scaleToFill"></image>
-		<view class="message__main{{openId == item._openid ? ' message__self-main' : ''}}">
-			<view class="message__nickname">{{ item.nickName }}</view>
-			<view class="message__text-wrapper">
-				<view class="message__loading" wx:if="{{item.writeStatus === 'pending'}}">···</view>
-				<view class="message__text-content{{openId == item._openid ? ' message__self-text-content' : ''}}">{{ item.textContent }}</view>
+		<block wx:if="{{item.msgType == 'text'}}">
+			<image class="message__avatar" src="{{item.avatar}}" mode="scaleToFill" />
+			<view class="message__main{{openId == item._openid ? ' message__self-main' : ''}}">
+				<view class="message__nickname">{{ item.nickName }}</view>
+				<view class="message__text-wrapper">
+					<view class="message__text-content{{openId == item._openid ? ' message__self-text-content' : ''}}">{{ item.textContent }}</view>
+				</view>
+			</view>
+		</block>
+		<view class="notice-wrapper" wx:if="{{item.msgType == 'system'}}">
+			<view class="notice">
+				<image src="./notice.png" class="notice__image" />
+				<view class="message__system">{{item.textContent}}</view>
 			</view>
 		</view>
 	</view>
-	<view style="height: 50rpx"></view>
+	<view style="height: 20rpx"></view>
 </scroll-view>

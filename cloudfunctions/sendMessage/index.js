@@ -4,6 +4,7 @@ const TIMEOUT = {
   PREPARATION: 5 * 1000,  // 准备：5秒
   CHOOSE_WORD: 15 * 1000,  // 选词：15秒
   ANSWER: 2 * 60 * 1000,  // 作答：2分钟
+  ANSWER_RIGHT: 30 * 1000,  // 有人回答正确，余下剩余时间：30秒
   ROUND_SETTLEMENT: 10 * 1000,  // 回合结算：10秒
 }
 
@@ -31,6 +32,17 @@ exports.main = async event => {
           timeoutTs: Date.now() + TIMEOUT.PREPARATION,
         },
       })
+      await db.collection('chat')
+        .add({
+          data: {
+            _openid: '',
+            roomId,
+            msgType: 'system',
+            sendTime: new Date(),
+            sendTimeTS: Date.now(),
+            textContent: '游戏开始！适度游戏益脑，过度游戏伤身，合理安排时间，享受健康生活。',
+          },
+        })
     } else if (!choosingWord && !answering) {
       // 准备开始 或 回合结算 -> 玩家选词 或 关闭房间
       // TODO: 从词库中选词，并排除已出现词 appearedWords
@@ -53,6 +65,17 @@ exports.main = async event => {
             timeoutTs: Date.now() + TIMEOUT.CHOOSE_WORD,
           }
         })
+        await db.collection('chat')
+          .add({
+            data: {
+              _openid: '',
+              roomId,
+              msgType: 'system',
+              sendTime: new Date(),
+              sendTimeTS: Date.now(),
+              textContent: `现在轮到 ${data.players[playerIndex].nickName} 绘画，请做好回答准备！`,
+            },
+          })
       } else {
         await db.collection('room').doc(roomId).remove()
       }
@@ -78,6 +101,17 @@ exports.main = async event => {
           }
         })
       }
+      await db.collection('chat')
+        .add({
+          data: {
+            _openid: '',
+            roomId,
+            msgType: 'system',
+            sendTime: new Date(),
+            sendTimeTS: Date.now(),
+            textContent: `${word.length} 个字，提示：XXX`,
+          },
+        })
     } else if (answering) {
       // 作画作答 -> 回合结算
       await db.collection('room').doc(roomId).update({
@@ -116,13 +150,25 @@ exports.main = async event => {
         const playerIndex = data.players.findIndex(player => player._openid === wxContext.OPENID && !player.answerRight)
         const notAnswerRightCount = data.players.filter(player => !player.answerRight).length
         if (data.currentDrawingOpenId !== wxContext.OPENID && data.currentWord != null && playerIndex >= 0) {
-          // 首次回答正确
+          // 个人首次回答正确
           await db.collection('room').doc(roomId).update({
             data: {
               [`players.${playerIndex}.answerRight`]: true,
               [`players.${playerIndex}.score`]: _.inc(notAnswerRightCount * 10),  // 加 没答对人数 * 10 分
+              timeoutTs: Math.min(data.timeoutTs, Date.now() + TIMEOUT.ANSWER_RIGHT),
             }
           })
+          await db.collection('chat')
+            .add({
+              data: {
+                _openid: '',
+                roomId,
+                msgType: 'system',
+                sendTime: new Date(),
+                sendTimeTS: Date.now(),
+                textContent: `恭喜 ${data.players[playerIndex].nickName} 回答正确，得分 + ${notAnswerRightCount * 10} ！`,
+              },
+            })
           if (await db.collection('users')
             .where({
               _id: wxContext.OPENID
@@ -150,6 +196,8 @@ exports.main = async event => {
           if (notAnswerRightCount >= data.players.length - 1) {
             await goToNextStage()
           }
+        } else {
+          msg = data.currentDrawingOpenId === wxContext.OPENID ? '你是绘画者，不能发送正确答案！' : '你已经正确回答过！'
         }
       } else {
         const playerIndex = data.players.findIndex(player => player._openid === wxContext.OPENID)
@@ -167,6 +215,7 @@ exports.main = async event => {
               data: {
                 _openid: wxContext.OPENID,
                 roomId,
+                msgType: 'text',
                 avatar: data.players[playerIndex].avatar,
                 nickName: data.players[playerIndex].nickName,
                 sendTime: new Date(),

@@ -40,6 +40,18 @@ exports.main = async (event) => {
       data: room,
     })
 
+  await db.collection('chat')
+    .add({
+      data: {
+        _openid: '',
+        roomId: data._id,
+        msgType: 'system',
+        sendTime: new Date(),
+        sendTimeTS: Date.now(),
+        textContent: '房间创建成功，快叫小伙伴们进来玩吧！',
+      },
+    })
+
   return {
     data,
     event,
