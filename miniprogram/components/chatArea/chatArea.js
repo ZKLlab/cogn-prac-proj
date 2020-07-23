@@ -121,39 +121,6 @@ Component({
         }
       }
     },
-    async onConfirmSendText(e) {
-      this.try(async () => {
-        if (!e.detail.value) {
-          return
-        }
-        const db = this.db
-        const doc = {
-          _id: `${Math.random()}_${Date.now()}`,
-          roomId: this.data.roomId,
-          avatar: this.data.userInfo.avatarUrl,
-          nickName: this.data.userInfo.nickName,
-          msgType: 'text',
-          textContent: e.detail.value,
-          sendTime: new Date(),
-          sendTimeTS: Date.now(),
-        }
-        this.setData({
-          textInputValue: '',
-          chats: [
-            ...this.data.chats,
-            {
-              ...doc,
-              _openid: this.data.openId,
-              writeStatus: 'pending',
-            },
-          ],
-        })
-        this.scrollToBottom(true)
-        await db.collection(COLLECTION).add({
-          data: doc,
-        })
-      })
-    },
     scrollToBottom(force) {
       if (force) {
         console.log('force scroll to bottom')
