@@ -54,12 +54,19 @@ exports.main = async event => {
         playerIndex = 0
       }
       if (round < 2) {
+        const res = await db.collection('keyword')
+          .where({
+            key: _.nin(data.apperedWords),
+          })
+          .limit(100)
+          .get()
+        res.data.sort(() => Math.round(Math.random))
         await db.collection('room').doc(roomId).update({
           data: {
             'players.$[].answerRight': false,
             currentDrawingOpenId: data.players[playerIndex]._openid,
             currentWord: null,
-            currentSelectableWord: ['小米', '华为'],
+            currentSelectableWord: res.data.slice(0, 2).map(item => item.key),
             choosingWord: true,
             round,
             timeoutTs: Date.now() + TIMEOUT.CHOOSE_WORD,
@@ -169,10 +176,10 @@ exports.main = async event => {
                 textContent: `恭喜 ${data.players[playerIndex].nickName} 回答正确，得分 + ${notAnswerRightCount * 10} ！`,
               },
             })
-          if (await db.collection('users')
+          if ((await db.collection('users')
             .where({
               _id: wxContext.OPENID
-            }).data.length === 0) {
+            }).get()).data.length === 0) {
             await db.collection('users').add({
               data: {
                 _id: wxContext.OPENID,
