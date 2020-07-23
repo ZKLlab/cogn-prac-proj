@@ -127,6 +127,7 @@ Component({
           onError: () => {
             wx.showToast({
               title: '同步的时候发生了错误',
+              icon: 'none',
             })
           }
         })
