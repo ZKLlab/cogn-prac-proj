@@ -123,46 +123,30 @@ exports.main = async event => {
               [`players.${playerIndex}.score`]: _.inc(notAnswerRightCount * 10),  // 加 没答对人数 * 10 分
             }
           })
-          // TODO: 更新排行榜
-          const flag = false,
-          const db = cloud.database(),
-          const _ = db.command,
-          try {
-            db.collection('users')
+          if (await db.collection('users')
             .where({
               _id: wxContext.OPENID
-            }).get({
-              success: function(res){
-                if(res.data.length == 0){
-                  flag = true
-                }
+            }).data.length === 0) {
+            await db.collection('users').add({
+              data: {
+                _id: wxContext.OPENID,
+                avatarUrl: data.players[playerIndex].avatar,
+                nickName: data.players[playerIndex].nickName,
+                credit: notAnswerRightCount * 10,
+                turns: 1,
               }
             })
-            if (flag){
-              await db.collection('users').add({
-                  data: {
-                    _id: wxContext.OPENID,
-                    avatarUrl: data.players[playerIndex].avatar,
-                    nickName: data.players[playerIndex].nickName,
-                    credit: data.players[playerIndex].score,
-                    turns: 1,
-                  }
-                })
-            } else{
-              await db.collection("users").doc(wxContext.OPENID)
-                .update({
-                  data: {
-                    avatarUrl: data.players[playerIndex].avatar,
-                    nickName: data.players[playerIndex].nickName,
-                    credit: _.inc(data.players[playerIndex].score),
-                    turns: _.inc(1),
-                  },
-                })
-            }
-          }  catch(e){
-            console.error(e);
-          }            
-          //
+          } else {
+            await db.collection('users').doc(wxContext.OPENID)
+              .update({
+                data: {
+                  avatarUrl: data.players[playerIndex].avatar,
+                  nickName: data.players[playerIndex].nickName,
+                  credit: _.inc(notAnswerRightCount * 10),
+                  turns: _.inc(1),
+                },
+              })
+          }
           if (notAnswerRightCount >= data.players.length - 1) {
             await goToNextStage()
           }
