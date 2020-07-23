@@ -1,5 +1,4 @@
-//var page = 1;
-//var pre_ranking = [1, 2, 3, 4, 5];
+const app = getApp()
 Page({
   /**
    * 页面的初始数据
