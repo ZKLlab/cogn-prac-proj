@@ -115,7 +115,7 @@ exports.main = async event => {
       if (data.currentWord != null && content.indexOf(data.currentWord) >= 0) {
         const playerIndex = data.players.findIndex(player => player._openid === wxContext.OPENID && !player.answerRight)
         const notAnswerRightCount = data.players.filter(player => !player.answerRight).length
-        if (/*data.currentDrawingOpenId !== wxContext.OPENID && */data.currentWord != null && playerIndex >= 0) {
+        if (data.currentDrawingOpenId !== wxContext.OPENID && data.currentWord != null && playerIndex >= 0) {
           // 首次回答正确
           await db.collection('room').doc(roomId).update({
             data: {
@@ -124,6 +124,44 @@ exports.main = async event => {
             }
           })
           // TODO: 更新排行榜
+          const flag = false,
+          const db = cloud.database(),
+          const _ = db.command,
+          try {
+            db.collection('users')
+            .where({
+              _id: wxContext.OPENID
+            }).get({
+              success: function(res){
+                if(res.data.length == 0){
+                  flag = true
+                }
+              }
+            })
+            if (flag){
+              await db.collection('users').add({
+                  data: {
+                    _id: wxContext.OPENID,
+                    avatarUrl: data.players[playerIndex].avatar,
+                    nickName: data.players[playerIndex].nickName,
+                    credit: data.players[playerIndex].score,
+                    turns: 1,
+                  }
+                })
+            } else{
+              await db.collection("users").doc(wxContext.OPENID)
+                .update({
+                  data: {
+                    avatarUrl: data.players[playerIndex].avatar,
+                    nickName: data.players[playerIndex].nickName,
+                    credit: _.inc(data.players[playerIndex].score),
+                    turns: _.inc(1),
+                  },
+                })
+            }
+          }  catch(e){
+            console.error(e);
+          }            
           //
           if (notAnswerRightCount >= data.players.length - 1) {
             await goToNextStage()
