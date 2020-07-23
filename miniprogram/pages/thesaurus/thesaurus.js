@@ -82,13 +82,22 @@ Page({
     this.setData({
       myOpenId: await app.getOpenIdAsync()
     }),
-    db.collection("keyword").get({
+    /*db.collection("keyword").get({
       success:res=>{
         console.log(res)
         this.setData({
           keywordList:res.data
         })
       }
+    })*/
+    db.collection("keyword").where({
+      _openid:this.data.myOpenId
+    }).get()
+    .then(res=>{
+      console.log(res)
+      this.setData({
+        keywordList:res.data
+      })
     })
   },
 

@@ -25,7 +25,7 @@ page {
 .userinfo {
   box-sizing: border-box;
   width: 670rpx;
-  height: 230rpx;
+  height: 210rpx;
   padding-left: 60rpx;
   border: 1px solid rgb(209, 203, 203);
   border-radius: 50rpx;

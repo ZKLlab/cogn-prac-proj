@@ -1,0 +1,77 @@
+/* pages/thesaurus/index.wxss */
+page {
+  background: #DDDEEF;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.userinfo {
+  box-sizing: border-box;
+  width: 670rpx;
+  height: 200rpx;
+  padding-left: 60rpx;
+  border: 1px solid rgb(209, 203, 203);
+  border-radius: 50rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 400rpx;
+}
+
+.background {
+  width: 100%;
+  height: 120%;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+.grid-menu {
+  margin-bottom: 50rpx;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid-menu-item {
+  width: 280rpx;
+  height: 280rpx;
+  text-align: center;
+  border-radius: 50rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.grid-menu__btn-icon {
+  line-height: 1;
+  color: white;
+  font-size: 140rpx;
+}
+
+.grid-menu__btn-text {
+  line-height: 1;
+  color: white;
+  font-size: 30rpx;
+  padding-bottom: 10rpx;
+}
+
+.grid-menu-2-1 {
+  margin-right: 50rpx;
+  background: linear-gradient(to bottom left,#fa804f, #f1df80e0);
+}
+
+.grid-menu-2-2 {
+  background: linear-gradient(to bottom left, #ff447c, #d6c9ff);
+}

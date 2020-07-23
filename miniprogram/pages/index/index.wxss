@@ -1,5 +1,5 @@
 page {
-  background: #E0E1FE;
+  background: #DDDEEF;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

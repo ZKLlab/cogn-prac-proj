@@ -1,0 +1,22 @@
+<!--pages/thesaurus/index.wxml-->
+
+<image class="background" src="./background1.png" mode="aspectFill"></image>
+  <view class="container,grid-menu">
+    <navigator url="/pages/thesaurus/thesaurus" open-type="navigate" class="grid-menu-item grid-menu-2-1">
+          <view class="grid-menu__btn-icon">
+            <van-icon name="description" />
+          </view>
+          <view class="grid-menu__btn-text">
+            <text>我的词库</text>
+          </view>
+    </navigator>
+        <navigator url="/pages/thesaurus/addKeyword" open-type="navigate" class="grid-menu-item grid-menu-2-2">
+          <view class="grid-menu__btn-icon">
+            <van-icon name="records" />
+          </view>
+          <view class="grid-menu__btn-text">
+            <text>添加词条</text>
+          </view>
+        </navigator>
+  </view>
+			

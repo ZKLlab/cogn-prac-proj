@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "van-icon": "@vant/weapp/icon",
+    "van-popup": "@vant/weapp/popup"
+  },
+  "navigationBarTitleText": "游戏词库"
+}

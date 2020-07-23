@@ -38,9 +38,9 @@
 	<view class="grid-menu">
 		<!-- 游戏词库 -->
 		<view>
-			<navigator url="../thesaurus/thesaurus" open-type="navigate" class="grid-menu-item grid-menu-2-1">
+			<navigator url="../thesaurus/index" open-type="navigate" class="grid-menu-item grid-menu-2-1">
 				<view class="grid-menu__btn-icon">
-					<van-icon name="chat-o" />
+					<van-icon name="orders-o" />
 				</view>
 				<view class="grid-menu__btn-text">
 					<text>游戏词库</text>
