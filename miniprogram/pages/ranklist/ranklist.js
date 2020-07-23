@@ -28,7 +28,7 @@ Page({
     })
     await this.getRankList()
     for (let index = 0; index < this.data.ranklist.length; index++){
-      if (this.data.ranklist[index]._id == "await app.getOpenIdAsync()"){
+      if (this.data.ranklist[index]._id == await app.getOpenIdAsync()){
         this.setData({
           uranking: index + 1
         })
