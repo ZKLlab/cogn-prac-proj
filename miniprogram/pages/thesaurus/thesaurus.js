@@ -1,6 +1,6 @@
 // miniprogram/pages/thesaurus/thesaurus.js
 const db=wx.cloud.database()
-//const app = getApp()
+const app = getApp()
 //const cloud = require('wx-server-sdk')
 //scloud.init()
 
@@ -11,11 +11,12 @@ Page({
    */
   data: {
     keywordList:"",
-    openId:""
+    myOpenId:""
   },
 
 
   getData(){
+    console.log(this.data.myOpenId),
     /*db.collection("keyword").get({
       success:res=>{
         console.log(res)
@@ -24,8 +25,9 @@ Page({
         })
       }
     })*/
+    
     db.collection("keyword").where({
-      openid:result.openid
+      _openid:this.data.myOpenId
     }).get()
     .then(res=>{
       console.log(res)
@@ -57,7 +59,7 @@ Page({
     
   },
 
-  getOpenid(){
+  /*getOpenid(){
     let that=this;
     wx.cloud.callFunction({
       name:"getOpenid",
@@ -69,15 +71,25 @@ Page({
         })
       }
     })
-  },
+  },*/
 
 
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
-
+  async onReady() {
+    this.setData({
+      myOpenId: await app.getOpenIdAsync()
+    }),
+    db.collection("keyword").get({
+      success:res=>{
+        console.log(res)
+        this.setData({
+          keywordList:res.data
+        })
+      }
+    })
   },
 
   /**
