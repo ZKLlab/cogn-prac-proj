@@ -5,7 +5,11 @@
 			<view class="message__nickname">{{ item.nickName }}</view>
 			<view class="message__text-wrapper">
 				<view class="message__loading" wx:if="{{item.writeStatus === 'pending'}}">···</view>
-				<view class="message__text-content{{openId == item._openid ? ' message__self-text-content' : ''}}">{{ item.textContent }}</view>
+				<view class="message__text-content{{openId == item._openid ? ' message__self-text-content' : ''}}" wx:if="{{item.msgType == 'text'}}">{{ item.textContent }}</view>
+				<view class="notice" wx:if="{{item.msgType == 'system'}}">
+					<image src="./notice.png" class = "image"></image>
+					<view class="message__system" >{{item.textContent}}</view>
+				</view>
 			</view>
 		</view>
 	</view>

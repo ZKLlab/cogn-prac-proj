@@ -3,7 +3,7 @@
     "pages/index/index",
     "pages/gameRoom/gameRoom",
     "pages/thesaurus/thesaurus",
-    "pages/rankList/rankList",
+    "pages/ranklist/ranklist",
     "pages/thesaurus/addKeyword"
   ],
   "window": {
