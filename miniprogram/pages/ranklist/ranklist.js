@@ -23,16 +23,16 @@ Page({
     wx.showLoading({
       title: '玩命加载中',
     })
-    //page = 1,
-    //pre_ranking = [1, 2, 3, 4, 5],
     this.setData({
-      //ranking: [1, 2, 3, 4, 5],
       ranklist: []
     })
-    this.getRankList(1, false)
+    await this.getRankList()
     for (let index = 0; index < this.data.ranklist.length; index++){
-      if (this.data.ranklist.data[index]._id == await app.getOpenIdAsync())
-        uranking = index + 1
+      if (this.data.ranklist[index]._id == "await app.getOpenIdAsync()"){
+        this.setData({
+          uranking: index + 1
+        })
+      }
     }
     wx.hideLoading()
   },
@@ -40,7 +40,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: async function () {
 
   },
 
@@ -92,35 +92,18 @@ Page({
 
   },
 
-  getRankList: function (pagenum, flag) {
+  getRankList: async function () {
     wx.cloud.init({
       traceUser: true
     })
-    wx.cloud.callFunction({
+    const res = await wx.cloud.callFunction({
       name: 'getRankListResult',
       data: {
-        pageid: pagenum
-      },
-      complete: res => {
-        if (res) {
-          this.setData({
-            ranklist: res.result.data,
-          })
-        }
-
-        
-
-        /*if (flag) {
-          pre_ranking[0] += 5,
-          pre_ranking[1] += 5,
-          pre_ranking[2] += 5,
-          pre_ranking[3] += 5,
-          pre_ranking[4] += 5,
-          this.setData({
-            ranking: pre_ranking
-          })
-        }*/
-      }
-    })
+        pageid: 1
+      }})
+      this.setData({
+        ranklist: res.result.data,
+      })
+    }
   },
-})
+)
