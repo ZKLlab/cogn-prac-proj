@@ -115,7 +115,7 @@ exports.main = async event => {
       if (data.currentWord != null && content.indexOf(data.currentWord) >= 0) {
         const playerIndex = data.players.findIndex(player => player._openid === wxContext.OPENID && !player.answerRight)
         const notAnswerRightCount = data.players.filter(player => !player.answerRight).length
-        if (/*data.currentDrawingOpenId !== wxContext.OPENID && */data.currentWord != null && playerIndex >= 0) {
+        if (data.currentDrawingOpenId !== wxContext.OPENID && data.currentWord != null && playerIndex >= 0) {
           // 首次回答正确
           await db.collection('room').doc(roomId).update({
             data: {
@@ -123,8 +123,30 @@ exports.main = async event => {
               [`players.${playerIndex}.score`]: _.inc(notAnswerRightCount * 10),  // 加 没答对人数 * 10 分
             }
           })
-          // TODO: 更新排行榜
-          //
+          if (await db.collection('users')
+            .where({
+              _id: wxContext.OPENID
+            }).data.length === 0) {
+            await db.collection('users').add({
+              data: {
+                _id: wxContext.OPENID,
+                avatarUrl: data.players[playerIndex].avatar,
+                nickName: data.players[playerIndex].nickName,
+                credit: notAnswerRightCount * 10,
+                turns: 1,
+              }
+            })
+          } else {
+            await db.collection('users').doc(wxContext.OPENID)
+              .update({
+                data: {
+                  avatarUrl: data.players[playerIndex].avatar,
+                  nickName: data.players[playerIndex].nickName,
+                  credit: _.inc(notAnswerRightCount * 10),
+                  turns: _.inc(1),
+                },
+              })
+          }
           if (notAnswerRightCount >= data.players.length - 1) {
             await goToNextStage()
           }

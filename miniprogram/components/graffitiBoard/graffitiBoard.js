@@ -16,6 +16,7 @@ Component({
     _watcher: null,
     _strokes: [],
     _strokesQueue: [],
+    _undoQueue: [],
     _drawingStrokes: {},
     _ctx: null,
     _realWidth: null,
@@ -31,6 +32,7 @@ Component({
           x = Math.round(x * 750 / this.data._realWidth)
           y = Math.round(y * 750 / this.data._realWidth)
           this.data._drawingStrokes[identifier] = {
+            _id: `${Math.random()}_${Date.now()}`,
             roomId: this.properties.roomId,
             strokeStyle: this.properties.color,
             lineWidth: this.properties.width,
@@ -140,15 +142,20 @@ Component({
     // 循环向数据库添加笔画
     async addStrokes() {
       if (!this.data._addStrokesFlag) {
+        const db = wx.cloud.database()
         this.data._addStrokesFlag = true
         while (this.data._strokesQueue.length > 0) {
           const data = this.data._strokesQueue.shift()
-          const db = wx.cloud.database()
           await db.collection('stroke').add({ data })
+        }
+        while (this.data._undoQueue.length > 0) {
+          const id = this.data._strokesQueue.shift()
+          await db.collection('stroke').doc(id).remove()
         }
         this.data._addStrokesFlag = false
       }
     },
+    // 清空画板
     async clearAll() {
       this.data._strokes = []
       this.data._strokesQueue = []
@@ -157,7 +164,16 @@ Component({
         name: 'clearMyStrokes',
       })
       this.redraw()
-    }
+    },
+    // 撤销画笔操作
+    undoStroke() {
+      if (this.data._strokes.length > 0) {
+        const stroke = this.data._strokes.pop()
+        this.data._undoQueue.push(stroke._id)
+        this.redraw()
+        this.addStrokes()
+      }
+    },
   },
   //// 观察者
   observers: {

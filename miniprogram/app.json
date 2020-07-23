@@ -11,7 +11,7 @@
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#5555FF",
     "navigationBarTitleText": "你画我猜",
-    "navigationBarTextStyle": "white"
+    "navigationBarTextStyle": "white" 
   },
   "plugins": {
     "WechatSI": {

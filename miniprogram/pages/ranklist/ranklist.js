@@ -30,19 +30,10 @@ Page({
       ranklist: []
     })
     this.getRankList(1, false)
-    wx.cloud.callFunction({
-      name: 'getCurrentRanking',
-      data: {
-        ranklist: this.data.ranklist
-      },
-      complete: res => {
-        if (res) {
-          this.setData({
-            uranking: res,
-          })
-        }
-      }
-    })
+    for (let index = 0; index < this.data.ranklist.length; index++){
+      if (this.data.ranklist.data[index]._id == await app.getOpenIdAsync())
+        uranking = index + 1
+    }
     wx.hideLoading()
   },
 

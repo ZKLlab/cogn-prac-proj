@@ -10,7 +10,6 @@ exports.main = async (event, context) => {
   try{
     return await db.collection('users')
       .orderBy('credit', 'desc')
-      .orderBy('creditTurn', 'desc')
       .orderBy('turns', 'desc')
       .limit(20)
       .get({

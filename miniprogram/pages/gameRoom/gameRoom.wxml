@@ -28,7 +28,7 @@
 			</button>
 		</view>
 		<view class="toolbar-item">
-			<button class="toolbar-item__button" bindtap="handleUndo">
+			<button class="toolbar-item__button" bindtap="handleUndoStroke">
 				<mdIcon type="mdiUndo" color="#232323" size="35rpx" />
 				<text class="toolbar-item__button-text">撤销</text>
 			</button>
