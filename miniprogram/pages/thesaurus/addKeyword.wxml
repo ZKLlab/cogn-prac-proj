@@ -1,7 +1,7 @@
 <!--miniprogram/pages/thesaurus/addKeyword.wxml-->
 <view class="container">
 	<!-- 背景图像 -->
-	<image class="background" src="./background.png" mode="aspectFill"></image>
+	<image class="background" src="./background copy.png" mode="aspectFill"></image>
 </view>
 
 
