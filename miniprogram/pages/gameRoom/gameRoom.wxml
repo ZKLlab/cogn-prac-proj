@@ -8,7 +8,7 @@
 	</view>
 	<!-- 选词区 -->
 	<view class="actions-area" wx:if="{{started && drawingOpenId === myOpenId && choosingWord}}">
-		<van-button plain type="info" wx:for="{{currentSelectableWord}}" style="margin: 20rpx" wx:key="index" bind:click="handleChooseWord" data-word="{{item}}">{{ item }}</van-button>
+		<van-button plain type="info" wx:for="{{currentSelectableWord}}" style="margin: 20rpx" wx:key="*this" bind:click="handleChooseWord" data-word="{{item}}">{{ item }}</van-button>
 	</view>
 	<!-- 绘画板 -->
 	<graffitiBoard id="graffitiBoard" class="graffiti-board" room-id="{{roomId}}" drawing-open-id="{{drawingOpenId}}" color="{{color}}" width="{{width}}" wx:if="{{started && (drawingOpenId !== myOpenId || !choosingWord)}}" />
