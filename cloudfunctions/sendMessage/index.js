@@ -1,7 +1,7 @@
 const cloud = require('wx-server-sdk')
 
 const TIMEOUT = {
-  PREPARATION: 5 * 1000,  // 准备：5秒
+  PREPARATION: 3 * 1000,  // 准备：3秒
   CHOOSE_WORD: 15 * 1000,  // 选词：15秒
   ANSWER: 2 * 60 * 1000,  // 作答：2分钟
   ANSWER_RIGHT: 30 * 1000,  // 有人回答正确，余下剩余时间：30秒
@@ -25,27 +25,31 @@ exports.main = async event => {
     const { started, choosingWord, answering } = data
     if (!started) {
       // 未开始 -> 准备开始
-      await db.collection('room').doc(roomId).update({
-        data: {
-          started: true,
-          currentWord: '准备好！',
-          timeoutTs: Date.now() + TIMEOUT.PREPARATION,
-        },
-      })
-      await db.collection('chat')
-        .add({
+      if (data.players.length > 1) {
+        await db.collection('room').doc(roomId).update({
           data: {
-            _openid: '',
-            roomId,
-            msgType: 'system',
-            sendTime: new Date(),
-            sendTimeTS: Date.now(),
-            textContent: '游戏开始！适度游戏益脑，过度游戏伤身，合理安排时间，享受健康生活。',
+            started: true,
+            currentWord: '准备好！',
+            timeoutTs: Date.now() + TIMEOUT.PREPARATION,
           },
         })
+        await db.collection('chat')
+          .add({
+            data: {
+              _openid: '',
+              roomId,
+              msgType: 'system',
+              sendTime: new Date(),
+              sendTimeTS: Date.now(),
+              textContent: '游戏开始！适度游戏益脑，过度游戏伤身，合理安排时间，享受健康生活。',
+            },
+          })
+      } else {
+        await db.collection('room').doc(roomId).remove()
+        await db.collection('chat').where({ roomId }).remove()
+      }
     } else if (!choosingWord && !answering) {
       // 准备开始 或 回合结算 -> 玩家选词 或 关闭房间
-      // TODO: 从词库中选词，并排除已出现词 appearedWords
       const playerIndexBefore = data.players.findIndex(player => player._openid === data.currentDrawingOpenId)
       let playerIndex = playerIndexBefore + 1
       let { round } = data
@@ -54,19 +58,20 @@ exports.main = async event => {
         playerIndex = 0
       }
       if (round < 2) {
-        const res = await db.collection('keyword')
-          .where({
-            key: _.nin(data.apperedWords),
+        const res = await db.collection('keyword').aggregate()
+          .match({
+            key: _.nin(data.appearedWords),
           })
-          .limit(100)
-          .get()
-        res.data.sort(() => Math.round(Math.random))
+          .sample({
+            size: 2,
+          })
+          .end()
         await db.collection('room').doc(roomId).update({
           data: {
             'players.$[].answerRight': false,
             currentDrawingOpenId: data.players[playerIndex]._openid,
             currentWord: null,
-            currentSelectableWord: res.data.slice(0, 2).map(item => item.key),
+            currentSelectableWord: res.list,
             choosingWord: true,
             round,
             timeoutTs: Date.now() + TIMEOUT.CHOOSE_WORD,
@@ -85,19 +90,17 @@ exports.main = async event => {
           })
       } else {
         await db.collection('room').doc(roomId).remove()
+        await db.collection('chat').where({ roomId }).remove()
       }
     } else if (choosingWord) {
-      // 选词 -> 作画作答
+      // 选词 -> 作画作答 或 回合结算（未选词）
       if (data.currentWord == null) {
-        const word = data.currentSelectableWord[Math.floor(Math.random() * 2)]
         await db.collection('room').doc(roomId).update({
           data: {
-            currentWord: word,
-            apperedWords: _.push([word]),
             choosingWord: false,
-            answering: true,
-            timeoutTs: Date.now() + TIMEOUT.ANSWER,
-          }
+            answering: false,
+            timeoutTs: Date.now() + TIMEOUT.ROUND_SETTLEMENT,
+          },
         })
       } else {
         await db.collection('room').doc(roomId).update({
@@ -108,17 +111,6 @@ exports.main = async event => {
           }
         })
       }
-      await db.collection('chat')
-        .add({
-          data: {
-            _openid: '',
-            roomId,
-            msgType: 'system',
-            sendTime: new Date(),
-            sendTimeTS: Date.now(),
-            textContent: `${word.length} 个字，提示：XXX`,
-          },
-        })
     } else if (answering) {
       // 作画作答 -> 回合结算
       await db.collection('room').doc(roomId).update({
@@ -144,25 +136,39 @@ exports.main = async event => {
       break
     case 'choose':
       stageAssert(true, true, false)
+      const { key, cue } = content
       await db.collection('room').doc(roomId).update({
         data: {
-          apperedWords: _.push([content]),
-          currentWord: content,
+          appearedWords: _.push([key]),
+          currentWord: key,
         },
       })
+      data.currentWord = key
+      await db.collection('chat')
+        .add({
+          data: {
+            _openid: '',
+            roomId,
+            msgType: 'system',
+            sendTime: new Date(),
+            sendTimeTS: Date.now(),
+            textContent: `${key.length}个字，提示：${cue}`,
+          },
+        })
       await goToNextStage()
       break
     case 'text':
       if (data.currentWord != null && content.indexOf(data.currentWord) >= 0) {
         const playerIndex = data.players.findIndex(player => player._openid === wxContext.OPENID && !player.answerRight)
-        const notAnswerRightCount = data.players.filter(player => !player.answerRight).length
+        const drawerIndex = data.players.findIndex(player => player._openid === data.currentDrawingOpenId)
+        const notAnswerRightCount = data.players.filter(player => !player.answerRight).length - 1
         if (data.currentDrawingOpenId !== wxContext.OPENID && data.currentWord != null && playerIndex >= 0) {
           // 个人首次回答正确
           await db.collection('room').doc(roomId).update({
             data: {
               [`players.${playerIndex}.answerRight`]: true,
-              [`players.${playerIndex}.score`]: _.inc(notAnswerRightCount * 10),  // 加 没答对人数 * 10 分
-              timeoutTs: Math.min(data.timeoutTs, Date.now() + TIMEOUT.ANSWER_RIGHT),
+              [`players.${playerIndex}.score`]: _.inc(notAnswerRightCount * 10),  // 回答的人 加 没答对人数 * 10 分
+              [`players.${drawerIndex}.score`]: _.inc(notAnswerRightCount * 5),  // 画画的人 加 答对人数 * 5 分
             }
           })
           await db.collection('chat')
@@ -200,7 +206,7 @@ exports.main = async event => {
                 },
               })
           }
-          if (notAnswerRightCount >= data.players.length - 1) {
+          if (notAnswerRightCount <= 1) {
             await goToNextStage()
           }
         } else {
@@ -216,6 +222,7 @@ exports.main = async event => {
             })
           } catch (e) {
             safe = false
+            msg = '抱歉，你发布的内容被和谐'
           }
           await db.collection('chat')
             .add({

@@ -38,12 +38,26 @@ Page({
   },
   async handleQuickStart(event) {
     this.processLoginCallback(event)
+    await wx.showToast({
+      title: '开发中',
+      icon: 'none',
+    })
+    return
     if (this.data.logged) {
       await wx.showLoading({
-        title: '请稍等',
+        title: '正在匹配',
+        mask: true,
       })
+      const timer = setTimeout(async () => {
+        await wx.hideLoading()
+        await wx.showToast({
+          title: '匹配超时！',
+          icon: 'none',
+          duration: 3000,
+        })
+      }, 30 * 1000)
       const res = await wx.cloud.callFunction({
-        name: 'quickMatch',
+        name: 'quickStart',
         data: {
           userInfo: this.data.userInfo,
         }
@@ -53,18 +67,28 @@ Page({
           url: `../gameRoom/gameRoom?id=${res.result.data._id}`,
         })
         await wx.hideLoading()
+        clearTimeout(timer)
       } else if (res.result.type === 'wait') {
-        const watcher = db.collection('room')
+        const db = wx.cloud.database()
+        const watcher = db.collection('match')
           .doc(res.result.data._id)
           .watch({
             onChange: async snapshot => {
-              if (snapshot.doc.roomId != null) {
+              if (snapshot.docs[0].roomId != null) {
                 await wx.redirectTo({
-                  url: `../gameRoom/gameRoom?id=${snapshot.doc.roomId }`,
+                  url: `../gameRoom/gameRoom?id=${snapshot.docs[0].roomId}`,
                 })
-                await wx.hideLoading()
                 watcher.close()
               }
+            },
+            onError: async () => {
+              clearTimeout(timer)
+              await wx.hideLoading()
+              await wx.showToast({
+                title: '匹配错误！',
+                icon: 'none',
+                duration: 3000,
+              })
             },
           })
       }
@@ -73,7 +97,6 @@ Page({
   async handleCreateRoom(event) {
     this.processLoginCallback(event)
     if (this.data.logged) {
-      // TODO: 选择词库
       await wx.showLoading({
         title: '请稍等',
       })

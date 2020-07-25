@@ -150,7 +150,7 @@ Component({
           await db.collection('stroke').add({ data })
         }
         while (this.data._undoQueue.length > 0) {
-          const id = this.data._strokesQueue.shift()
+          const id = this.data._undoQueue.shift()
           await db.collection('stroke').doc(id).remove()
         }
         this.data._addStrokesFlag = false

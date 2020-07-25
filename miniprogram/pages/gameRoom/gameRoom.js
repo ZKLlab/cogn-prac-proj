@@ -106,6 +106,10 @@ Page({
       .watch({
         onChange: async snapshot => {
           if (snapshot.docs.length === 0) {
+            clearTimeout(this.data._timer)
+            await wx.setNavigationBarTitle({
+              title: '你画我猜',
+            })
             await wx.redirectTo({
               url: '../index/index',
             })
@@ -115,10 +119,12 @@ Page({
           console.log(snapshot.docs)
           console.log(snapshot.docChanges)
           let currentWord = '你画我猜'
-          if (room.currentWord === '准备好！' || (room.currentDrawingOpenId === this.data.myOpenId && room.answering)) {
-            currentWord = room.currentWord
-          } else if (room.choosingWord) {
+          if (room.choosingWord) {
             currentWord = '等待玩家选词'
+          } else if (room.currentWord !== null && !(room.answering || room.choosingWord) || (room.currentDrawingOpenId === this.data.myOpenId && room.answering)) {
+            currentWord = room.currentWord
+          } else if (room.answering) {
+            currentWord = `${room.currentWord.length} 个字`
           }
           this.setData({
             drawingOpenId: room.currentDrawingOpenId,
@@ -173,14 +179,21 @@ Page({
     })
   },
   async sendText(content) {
-    console.log(await wx.cloud.callFunction({
+    const res = await wx.cloud.callFunction({
       name: 'sendMessage',
       data: {
         roomId: this.data.roomId,
         msgType: 'text',
         content,
       }
-    }))
+    })
+    if (res.result.msg != null) {
+      wx.showToast({
+        title: res.result.msg,
+        icon: 'none',
+        duration: 3000,
+      })
+    }
   },
   //// 事件
   handleClearAll() {
@@ -264,13 +277,13 @@ Page({
     }
   },
   async handleChooseWord(event) {
-    console.log(event.currentTarget.dataset['word'])
+    console.log(event.currentTarget.dataset.obj)
     await wx.cloud.callFunction({
       name: 'sendMessage',
       data: {
         roomId: this.data.roomId,
         msgType: 'choose',
-        content: event.currentTarget.dataset['word'],
+        content: event.currentTarget.dataset.obj,
       },
     })
   },
@@ -321,18 +334,7 @@ Page({
   onShareAppMessage() {
     return {
       title: '你画我猜：快来加入我的房间！',
-      path: `/pages/gameRoom/gameRoom?id=${this.data.roomId}&type=join`,
+      path: `/pages/gameRoom/gameRoom?id=${this.data.roomId}`,
     }
-  },
-  async handleDrawMyself() {
-    this.setData({
-      drawingOpenId: await app.getOpenIdAsync(),
-    })
-    console.log(this.data.drawingOpenId, this.data.myOpenId)
-  },
-  handleWatch() {
-    this.setData({
-      drawingOpenId: '',
-    })
   },
 })

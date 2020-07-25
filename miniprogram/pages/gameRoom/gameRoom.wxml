@@ -8,7 +8,7 @@
 	</view>
 	<!-- 选词区 -->
 	<view class="actions-area" wx:if="{{started && drawingOpenId === myOpenId && choosingWord}}">
-		<van-button plain type="info" wx:for="{{currentSelectableWord}}" style="margin: 20rpx" wx:key="*this" bind:click="handleChooseWord" data-word="{{item}}">{{ item }}</van-button>
+		<van-button plain type="info" wx:for="{{currentSelectableWord}}" style="margin: 20rpx" wx:key="_id" bind:click="handleChooseWord" data-obj="{{item}}">{{ item.key }}</van-button>
 	</view>
 	<!-- 绘画板 -->
 	<graffitiBoard id="graffitiBoard" class="graffiti-board" room-id="{{roomId}}" drawing-open-id="{{drawingOpenId}}" color="{{color}}" width="{{width}}" wx:if="{{started && (drawingOpenId !== myOpenId || !choosingWord)}}" />
@@ -38,9 +38,9 @@
 	<view class="players-list">
 		<button class="player-container" wx:for="{{players}}" wx:key="_openid">
 			<image class="player-avatar" src="{{item.avatar}}" />
-			<text class="player-name">{{ item.nickName }}</text>
-			<text class="player-score" wx:if="{{!item.answerRight}}">+ {{ item.score }} 分</text>
-			<text class="player-answer-right" wx:elif="{{drawingOpenId === item._openid}}">正在画</text>
+			<text class="player-name" style="color: #212121">{{ item.nickName }}<text style="color: #9C27B0" wx:if="{{item._openid===myOpenId}}"> (你)</text></text>
+			<text class="player-answer-right" style="color: #2196F3" wx:if="{{drawingOpenId === item._openid}}">正在画</text>
+			<text class="player-score" wx:elif="{{!item.answerRight}}">积分：{{ item.score }}</text>
 			<text class="player-answer-right" wx:else>回答正确!</text>
 		</button>
 		<button class="player-container" wx:if="{{!started && players.length > 0 && players.length < 6}}" open-type="share">
@@ -48,6 +48,7 @@
 				<van-icon name="plus" />
 			</view>
 			<text class="player-name">邀请朋友</text>
+			<text class="player-answer-right">分享</text>
 		</button>
 	</view>
 	<!-- 聊天区域 -->
@@ -70,3 +71,8 @@
 	<van-divider hairline />
 	<van-picker columns="{{brushStyleColumns}}" bind:change="handleBrushStylesChanged" />
 </van-popup>
+<!-- 结算 -->
+<!-- <van-popup show="{{started && !choosingWord && !answering && !!currentWord}}">
+	<view>结算页面预留位置</view>
+	<view>{{ currentWord }}</view>
+</van-popup> -->
