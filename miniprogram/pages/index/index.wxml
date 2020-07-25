@@ -4,7 +4,7 @@
 
 	<!-- 用户信息 -->
 	<button open-type="getUserInfo" class="userinfo" bindgetuserinfo="processLoginCallback">
-		<view class="userinfo-avatar" style="background-image: url({{avatarUrl}})"></view>
+		<image class="userinfo-avatar" src="{{avatarUrl}}"></image>
 		<view class="userinfo-nickname-wrapper">
 			<text class="userinfo-nickname">{{ userInfo.nickName }}</text>
 		</view>

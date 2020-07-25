@@ -1,22 +1,10 @@
-<!--miniprogram/pages/thesaurus/thesaurus.wxml-->
 <view class="container">
 	<!-- 背景图像 -->
-	<image class="background" src="./background copy.png" mode="aspectFill"></image>
+	<image class="background" src="./background2.png" mode="aspectFill"></image>
 </view>
-<!--
-<view class="option-menu">
-  <view class="grid-menu">
-    <button type="primary" bindtap="getData"> 查看我的词库 </button>
-  </view>
-  <navigator url="/pages/thesaurus/addKeyword"> 
-    <button type="primary"> 添加词库词条 </button>
-  </navigator>
-</view>
--->
 
-
-<view class="container">
-  <view wx:for="{{keywordList}}" class="userinfo">
-    {{item.key}}
-  </view>
+<view class="keywords-wrapper">
+	<van-cell wx:for="{{keywordList}}" wx:key="_id" center title="{{item.key}}" label="{{item.cue}}">
+		<van-button type="danger" plain size="small" bind:click="removeKeyword" data-id="{{item._id}}" data-word="{{item.key}}">删除</van-button>
+	</van-cell>
 </view>

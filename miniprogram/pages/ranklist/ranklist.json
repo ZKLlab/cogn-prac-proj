@@ -2,5 +2,8 @@
   "navigationBarTitleText": "你画我猜",
   "enablePullDownRefresh": true,
   "backgroundTextStyle": "dark",
-  "usingComponents": {}
+  "usingComponents": {
+    "van-skeleton": "@vant/weapp/skeleton",
+    "van-button": "@vant/weapp/button"
+  }
 }

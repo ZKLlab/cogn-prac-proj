@@ -1,5 +1,5 @@
 
-const db=wx.cloud.database()
+const db = wx.cloud.database()
 const app = getApp()
 Page({
 
@@ -7,8 +7,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    keywordList:"",
-    myOpenId:""
+    keywordList: "",
+    myOpenId: ""
   },
 
   /**

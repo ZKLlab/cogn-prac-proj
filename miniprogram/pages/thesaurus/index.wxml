@@ -1,7 +1,5 @@
-<!--pages/thesaurus/index.wxml-->
-
   <image class="background" src="./background.png" mode="aspectFill"></image>
-  <view class="container,grid-menu">
+  <view class="container grid-menu">
     <navigator url="/pages/thesaurus/thesaurus" open-type="navigate" class="grid-menu-item grid-menu-2-1">
           <view class="grid-menu__btn-icon">
             <van-icon name="description" />

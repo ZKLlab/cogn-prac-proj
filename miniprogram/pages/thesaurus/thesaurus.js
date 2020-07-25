@@ -1,5 +1,5 @@
 // miniprogram/pages/thesaurus/thesaurus.js
-const db=wx.cloud.database()
+const db = wx.cloud.database()
 const app = getApp()
 //const cloud = require('wx-server-sdk')
 //scloud.init()
@@ -10,31 +10,31 @@ Page({
    * 页面的初始数据
    */
   data: {
-    keywordList:"",
-    myOpenId:""
+    keywordList: "",
+    myOpenId: ""
   },
 
 
-  getData(){
+  getData() {
     console.log(this.data.myOpenId),
-    /*db.collection("keyword").get({
-      success:res=>{
-        console.log(res)
-        this.setData({
-          keywordList:res.data
+      /*db.collection("keyword").get({
+        success:res=>{
+          console.log(res)
+          this.setData({
+            keywordList:res.data
+          })
+        }
+      })*/
+
+      db.collection("keyword").where({
+        _openid: this.data.myOpenId
+      }).get()
+        .then(res => {
+          console.log(res)
+          this.setData({
+            keywordList: res.data
+          })
         })
-      }
-    })*/
-    
-    db.collection("keyword").where({
-      _openid:this.data.myOpenId
-    }).get()
-    .then(res=>{
-      console.log(res)
-      this.setData({
-        keywordList:res.data
-      })
-    })
   },
 
 
@@ -56,49 +56,41 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+
   },
 
-  /*getOpenid(){
-    let that=this;
-    wx.cloud.callFunction({
-      name:"getOpenid",
-      compelete:res=>{
-        console.log(res.result.openId)
-        var openid=res.result.openId;
-        that.setData({
-          openid:openid
-        })
-      }
+  removeKeyword(event) {
+    wx.showModal({
+      title: `确定要删除“${event.currentTarget.dataset.word}”吗？`,
+      content: '此操作不可恢复。',
+      confirmColor: 'red',
+      success: async (res) => {
+        if (res.confirm) {
+          await db.collection('keyword').doc(event.currentTarget.dataset.id).remove()
+          await this.fetchData()
+        }
+      },
     })
-  },*/
-
-
-
+  },
+  async fetchData() {
+    this.setData({
+      myOpenId: await app.getOpenIdAsync()
+    })
+    const res = await db.collection('keyword')
+      .where({
+        _openid: this.data.myOpenId,
+      })
+      .get()
+    console.log(res)
+    this.setData({
+      keywordList: res.data
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   async onReady() {
-    this.setData({
-      myOpenId: await app.getOpenIdAsync()
-    }),
-    /*db.collection("keyword").get({
-      success:res=>{
-        console.log(res)
-        this.setData({
-          keywordList:res.data
-        })
-      }
-    })*/
-    db.collection("keyword").where({
-      _openid:this.data.myOpenId
-    }).get()
-    .then(res=>{
-      console.log(res)
-      this.setData({
-        keywordList:res.data
-      })
-    })
+    await this.fetchData()
   },
 
   /**

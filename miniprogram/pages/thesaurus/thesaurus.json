@@ -1,4 +1,7 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "van-cell": "@vant/weapp/cell",
+    "van-button": "@vant/weapp/button"
+  },
   "navigationBarTitleText": "我的词库"
 }

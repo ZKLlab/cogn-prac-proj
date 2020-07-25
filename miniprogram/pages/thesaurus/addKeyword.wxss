@@ -38,6 +38,6 @@ page {
   align-items: center;
 }
 
-.grid-menu {
+.btn-submit {
   margin-right: 75rpx;
 }

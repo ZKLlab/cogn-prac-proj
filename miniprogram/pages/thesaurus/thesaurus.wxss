@@ -1,16 +1,7 @@
-/* miniprogram/pages/thesaurus/thesaurus.wxss */
 page {
   background: #dddeef;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
   margin: 60rpx 0 120rpx;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 .background {
@@ -20,18 +11,6 @@ page {
   left: 0;
   bottom: 0;
   z-index: -1;
-}
-
-.userinfo {
-  box-sizing: border-box;
-  width: 670rpx;
-  height: 210rpx;
-  padding-left: 60rpx;
-  border: 1px solid rgb(209, 203, 203);
-  border-radius: 50rpx;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
 }
 
 .option-menu {
@@ -45,4 +24,8 @@ page {
 
 .grid-menu {
   margin-right: 75rpx;
+}
+
+.keywords-wrapper {
+  padding: 0 60rpx;
 }
