@@ -126,17 +126,30 @@ Page({
           } else if (room.answering) {
             currentWord = `${room.currentWord.length} 个字`
           }
-          this.setData({
-            drawingOpenId: room.currentDrawingOpenId,
-            currentWord,
-            currentSelectableWord: room.currentSelectableWord,
-            joined: room.players.findIndex(player => player._openid === this.data.myOpenId) >= 0,
-            players: room.players,
-            started: room.started,
-            choosingWord: room.choosingWord,
-            answering: room.answering,
-            timeoutTs: room.timeoutTs,
-          })
+          if (this.data.currentDrawingOpenId !== room.currentDrawingOpenId) {
+            this.setData({
+              drawingOpenId: room.currentDrawingOpenId,
+              currentWord,
+              currentSelectableWord: room.currentSelectableWord,
+              joined: room.players.findIndex(player => player._openid === this.data.myOpenId) >= 0,
+              players: room.players,
+              started: room.started,
+              choosingWord: room.choosingWord,
+              answering: room.answering,
+              timeoutTs: room.timeoutTs,
+            })
+          } else {
+            this.setData({
+              currentWord,
+              currentSelectableWord: room.currentSelectableWord,
+              joined: room.players.findIndex(player => player._openid === this.data.myOpenId) >= 0,
+              players: room.players,
+              started: room.started,
+              choosingWord: room.choosingWord,
+              answering: room.answering,
+              timeoutTs: room.timeoutTs,
+            })
+          }
         },
         onError: () => {
           wx.showToast({

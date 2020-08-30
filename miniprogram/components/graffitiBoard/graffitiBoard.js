@@ -21,6 +21,7 @@ Component({
     _ctx: null,
     _realWidth: null,
     _addStrokesFlag: false,
+    _lastDrawingOpenId: null,
   },
   methods: {
     //// 触摸事件
@@ -179,22 +180,26 @@ Component({
   //// 观察者
   observers: {
     async drawingOpenId(drawingOpenId) {
-      this.data._strokes = []
-      this.data._strokesQueue = []
-      this.data._drawingStrokes = {}
-      this.redraw()
-      if (drawingOpenId !== await app.getOpenIdAsync()) {
-        this.setData({
-          myTurn: false,
+      console.log(drawingOpenId)
+      if (this.data._lastDrawingOpenId !== drawingOpenId) {
+        this.data._strokes = []
+        this.data._strokesQueue = []
+        this.data._drawingStrokes = {}
+        this.redraw()
+        if (drawingOpenId !== await app.getOpenIdAsync()) {
+          this.setData({
+            myTurn: false,
+          })
+        }
+        await wx.cloud.callFunction({
+          name: 'clearMyStrokes',
         })
-      }
-      await wx.cloud.callFunction({
-        name: 'clearMyStrokes',
-      })
-      if (drawingOpenId === await app.getOpenIdAsync()) {
-        this.setData({
-          myTurn: true,
-        })
+        if (drawingOpenId === await app.getOpenIdAsync()) {
+          this.setData({
+            myTurn: true,
+          })
+        }
+        this.data._lastDrawingOpenId = drawingOpenId
       }
     },
   },
